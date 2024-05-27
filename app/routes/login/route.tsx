@@ -12,7 +12,7 @@ import SignInScreen from "./login-page";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   let user = await authenticator.isAuthenticated(request, {
-    successRedirect: "/",
+    successRedirect: "/home",
   });
 
   let session = await getSession(request.headers.get("cookie"));
@@ -39,7 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     AuthStrategies.FORM,
     request,
     {
-      successRedirect: "/",
+      successRedirect: "/home",
       failureRedirect: "/login",
     }
   )

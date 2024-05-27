@@ -24,7 +24,7 @@ export const protectedRoute = async (request: Request) => {
   //   fname: staff ? staff.fname : "no f name",
   //   lname: staff ? staff.lname : "no l name",
   // };
-  return { user };
+  return { ...user };
 };
 
 // Register your strategies below

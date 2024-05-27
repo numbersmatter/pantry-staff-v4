@@ -22,17 +22,23 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
+const appUser: AppUser = {
+  fname: "Leonard",
+  lname: "Lawson",
+  email: 'leonard@verticalhydration.com',
+  id: '1',
+}
 
 
-export function StaffShell({ children, }: { children: ReactNode, }) {
+export function StaffShell({
+  children, navigation, appUser
+}: {
+  children: ReactNode,
+  navigation: { name: string, href: string, current: boolean }[],
+  appUser: AppUser
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const appUser: AppUser = {
-    fname: "Leonard",
-    lname: "Lawson",
-    email: 'leonard@verticalhydration.com',
-    id: '1',
-  }
 
   return (
     <>
