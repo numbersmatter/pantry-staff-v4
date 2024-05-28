@@ -24,7 +24,15 @@ export const protectedRoute = async (request: Request) => {
   //   fname: staff ? staff.fname : "no f name",
   //   lname: staff ? staff.lname : "no l name",
   // };
-  return { ...user };
+
+  const appUser = {
+    fname: "Leonard",
+    lname: "Lawson",
+    email: "leonard@verticalhydration.com",
+    id: "1",
+  };
+
+  return { ...user, appUser };
 };
 
 // Register your strategies below
