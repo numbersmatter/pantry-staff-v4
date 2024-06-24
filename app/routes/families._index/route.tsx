@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
 import { getFamilies } from "./data-fetchers";
 import { DataTable } from "~/components/common/data-table";
-import { FamilyIndexTable } from "./components";
+import { FamilyIndexTableCols, FamilyIndexTable } from "./components";
 
 
 
@@ -32,10 +32,11 @@ export default function FamiliesIndex() {
     .sort((a, b) => a.last_name.localeCompare(b.last_name));
 
   return (
-    <div>
+    <div className="px-2 md:px-6">
       <h1>Families Index</h1>
-      <DataTable data={familiesSorted} columns={FamilyIndexTable} />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <FamilyIndexTable data={familyData} columns={FamilyIndexTableCols} />
+      {/* <DataTable data={familiesSorted} columns={FamilyIndexTableCols} /> */}
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </div>
   );
 }
