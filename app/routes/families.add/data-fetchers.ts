@@ -1,14 +1,12 @@
 import {
   Result,
   SerializableResult,
-  composable,
   serialize,
   withSchema,
 } from "composable-functions";
-
 import { z } from "zod";
-import { newPerformMutation } from "./modified-perform-mutation";
 import { TypedResponse, json } from "@remix-run/node";
+import { db } from "~/lib/database/firestore.server";
 
 const newFamilySchema = z.object({
   fname: z.string().min(2, "Field must contain at least 2 characters").max(50),
@@ -22,18 +20,34 @@ const newFamilySchema = z.object({
 });
 
 const addNewFamily = withSchema(newFamilySchema)(async (input, ctx) => {
-  const personId = "1";
-  const familyId = "2";
+  const personId = await db.person.create({
+    first_name: input.fname,
+    last_name: input.lname,
+    phone: input.phone,
+    email: "",
+    type: "caregiver",
+  });
+  const familyId = await db.families.create({
+    primary_user_id: "",
+    members: [personId],
+    family_name: `${input.fname} ${input.lname} Family`,
+    address: {
+      street: input.street,
+      unit: input.unit,
+      city: input.city,
+      state: input.state,
+      zip: input.zip,
+    },
+    students: {
+      tps: 0,
+      lds: 0,
+      tms: 0,
+      ths: 0,
+    },
+  });
 
   return { personId, familyId };
 });
-
-const addFamily = (request: Request) =>
-  newPerformMutation({
-    request,
-    schema: newFamilySchema,
-    mutation: addNewFamily,
-  });
 
 const actionResponse = <X>(
   result: Result<X>,
@@ -41,4 +55,4 @@ const actionResponse = <X>(
 ): TypedResponse<SerializableResult<X>> =>
   json(serialize(result), { status: result.success ? 200 : 422, ...opts });
 
-export { addNewFamily, newFamilySchema, addFamily, actionResponse };
+export { addNewFamily, newFamilySchema, actionResponse };
