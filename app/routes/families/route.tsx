@@ -18,6 +18,8 @@ export default function FamiliesLayout() {
     <StaffShell
       navigation={[
         { name: 'Home', href: '/home', current: true },
+        { name: 'Families', href: '/families', current: true },
+        { name: 'Add Family', href: '/families/add', current: true },
         // { name: 'Reporting', href: '/reporting/', current: false },
         // { name: 'Weekplans', href: '/weekplans/', current: false },
       ]}
