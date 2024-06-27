@@ -1,4 +1,5 @@
 import {
+  Failure,
   Result,
   SerializableResult,
   serialize,
@@ -55,4 +56,29 @@ const actionResponse = <X>(
 ): TypedResponse<SerializableResult<X>> =>
   json(serialize(result), { status: result.success ? 200 : 422, ...opts });
 
-export { addNewFamily, newFamilySchema, actionResponse };
+const composeErrorObject = (failure: Failure) => {
+  const serializedErrors = serialize(failure);
+  const inputErrors = serializedErrors.errors
+    .filter((e) => e.name === "InputError")
+    .map((e) => {
+      return {
+        field: e.path[0],
+        message: e.message,
+      };
+    });
+
+  const errorObject = {
+    fname: inputErrors.find((e) => e.field === "fname")?.message ?? "",
+    lname: inputErrors.find((e) => e.field === "lname")?.message ?? "",
+    phone: inputErrors.find((e) => e.field === "phone")?.message ?? "",
+    street: inputErrors.find((e) => e.field === "street")?.message ?? "",
+    unit: inputErrors.find((e) => e.field === "unit")?.message ?? "",
+    city: inputErrors.find((e) => e.field === "city")?.message ?? "",
+    state: inputErrors.find((e) => e.field === "state")?.message ?? "",
+    zip: inputErrors.find((e) => e.field === "zip")?.message ?? "",
+  };
+
+  return errorObject;
+};
+
+export { addNewFamily, newFamilySchema, actionResponse, composeErrorObject };

@@ -12,9 +12,9 @@ import {
   CardTitle
 } from "~/components/ui/card";
 import { FormTextField } from "~/components/forms/textfield";
-import { actionResponse, addNewFamily, newFamilySchema } from "./data-fetchers";
+import { addNewFamily, composeErrorObject } from "./data-fetchers";
 
-import { inputFromForm, serialize, serializeError, } from "composable-functions";
+import { inputFromForm, serialize } from "composable-functions";
 
 
 
@@ -28,58 +28,21 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await protectedRoute(request);
-
   const formInput = await inputFromForm(request);
-  const testInput = {
-    fname: "A",
-    lname: "smith",
-    street: "123 Main St",
-    unit: "",
-    city: "",
-    state: "",
-    zip: "",
-  }
   const result = await addNewFamily(formInput);
-  // return actionResponse(result);
 
   if (!result.success) {
-    const serializedErrors = serialize(result);
-    const inputErrors = serializedErrors.errors
-      .filter(e => e.name === "InputError")
-      .map((e) => {
-        return {
-          field: e.path[0],
-          message: e.message
-        }
-      })
-
-    const errorObject = {
-      fname: inputErrors.find(e => e.field === "fname")?.message ?? "",
-      lname: inputErrors.find(e => e.field === "lname")?.message ?? "",
-      phone: inputErrors.find(e => e.field === "phone")?.message ?? "",
-      street: inputErrors.find(e => e.field === "street")?.message ?? "",
-      unit: inputErrors.find(e => e.field === "unit")?.message ?? "",
-      city: inputErrors.find(e => e.field === "city")?.message ?? "",
-      state: inputErrors.find(e => e.field === "state")?.message ?? "",
-      zip: inputErrors.find(e => e.field === "zip")?.message ?? "",
-    }
-
-
+    const errorObject = composeErrorObject(result)
     return json({ errorObject }, { status: 400 })
   }
 
-
-  // return redirect(`/families/${result.data.familyId}`)
+  return redirect(`/families/${result.data.familyId}`)
 };
 
 
 export default function FamiliesAdd() {
-
-  // const { } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-
   const errorObject = actionData?.errorObject;
-
 
   return (
 
@@ -130,11 +93,7 @@ export default function FamiliesAdd() {
           </CardFooter>
         </Form>
       </Card>
-      {
-        actionData && <div>
-          <pre>{JSON.stringify(errorObject, null, 2)}</pre>
-        </div>
-      }
+
     </>
   )
 
