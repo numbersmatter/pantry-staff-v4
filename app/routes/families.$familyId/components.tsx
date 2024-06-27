@@ -23,6 +23,8 @@ import { FamilyAppModel } from '~/lib/database/families/types';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { action } from './route';
+import invariant from 'tiny-invariant';
+import { ErrorObject } from './mutations';
 
 
 
@@ -67,9 +69,14 @@ function UpdateTextDialog({
   const isFetching = fetcher.state !== 'idle';
   const actionData = fetcher.data;
 
+  const type = actionData?.type ?? "updateFamilyName";
+
+  // invariant(type === "updateFamilyName", `Invalid type: ${type}`); 
+
+  const errors: ErrorObject = actionData?.errorObject ?? {};
 
   useEffect(() => {
-    if (actionData?.result?.success) {
+    if (actionData?.success === true) {
       setIsOpen(false);
     }
   }
@@ -89,11 +96,12 @@ function UpdateTextDialog({
             </DialogDescription>
           </DialogHeader>
           <input readOnly type="hidden" name="fieldId" value={fieldId} />
-          <input readOnly type="hidden" name="type" value={"family_name"} />
+          <input readOnly type="hidden" name="type" value={"updateFamilyName"} />
           <FormTextField
             label={fieldLabel}
             id={"value"}
             defaultValue={fieldValue}
+            error={errors?.value}
           />
           <DialogFooter >
             <DialogClose asChild>
@@ -182,21 +190,16 @@ function UpdateStudentsDialog({ family }: { family: FamilyAppModel }) {
   const isFetching = fetcher.state !== 'idle';
   const actionData = fetcher.data;
 
-  const formResult = actionData?.result ?? { success: false, errors: {} };
-  const formErrors = formResult.success ? {} : formResult.errors as Partial<Record<"tps" | "lds" | "tms" | "ths" | "_global", string[]>>;
+  // const formResult = actionData?.result ?? { success: false, errors: {} };
+  // const formErrors = formResult.success ? {} : formResult.errors as Partial<Record<"tps" | "lds" | "tms" | "ths" | "_global", string[]>>;
 
   useEffect(() => {
-    if (actionData?.result?.success) {
+    if (actionData?.success === true) {
       setIsOpen(false);
     }
   }, [actionData, isFetching])
 
-  const errors = {
-    tps: formErrors.tps ? formErrors.tps[0] : "",
-    lds: formErrors.lds ? formErrors.lds[0] : "",
-    tms: formErrors.tms ? formErrors.tms[0] : "",
-    ths: formErrors.ths ? formErrors.ths[0] : "",
-  }
+  const errors: ErrorObject = actionData?.errorObject ?? {} as ErrorObject;
 
 
   return (
@@ -212,7 +215,7 @@ function UpdateStudentsDialog({ family }: { family: FamilyAppModel }) {
               Update the address for this family.
             </DialogDescription>
           </DialogHeader>
-          <input readOnly type="hidden" name="type" value={"students"} />
+          <input readOnly type="hidden" name="type" value={"updateStudents"} />
           <FormNumberField
             label="Primary School"
             id="tps"
@@ -256,9 +259,11 @@ function UpdateAddressDialog({ family }: { family: FamilyAppModel }) {
   const isFetching = fetcher.state !== 'idle';
   const actionData = fetcher.data;
 
+  const errors: ErrorObject = actionData?.errorObject ?? {};
+
 
   useEffect(() => {
-    if (actionData?.result?.success) {
+    if (actionData?.success) {
       setIsOpen(false);
     }
   }
@@ -277,31 +282,36 @@ function UpdateAddressDialog({ family }: { family: FamilyAppModel }) {
               Update the address for this family.
             </DialogDescription>
           </DialogHeader>
-          <input readOnly type="hidden" name="type" value={"address"} />
+          <input readOnly type="hidden" name="type" value={"updateAddress"} />
           <FormTextField
             label="Street"
             id="street"
             defaultValue={family.address.street}
+            error={errors.street}
           />
           <FormTextField
             label="Unit"
             id="unit"
             defaultValue={family.address.unit}
+            error={errors.unit}
           />
           <FormTextField
             label="City"
             id="city"
             defaultValue={family.address.city}
+            error={errors.city}
           />
           <FormTextField
             label="State"
             id="state"
             defaultValue={family.address.state}
+            error={errors.state}
           />
           <FormTextField
             label="Zip"
             id="zip"
             defaultValue={family.address.zip}
+            error={errors.zip}
           />
 
           <DialogFooter >

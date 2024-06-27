@@ -6,20 +6,22 @@ import {
 } from "@remix-run/react"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
-import { db } from "~/lib/database/firestore.server";
 import { AddressCard, SingleTextUpdate, StudentCard } from "./components";
+import { inputFromForm, } from "composable-functions";
+import { checkFamilyExists } from "./data-fetchers";
+import {
+  updateAddress,
+  updateFamilyName,
+  updateStudents,
+} from "./mutations";
+
 
 
 
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await protectedRoute(request);
-  let familyId = params["familyId"] ?? "familyId";
-
-  const family = await db.families.read(familyId);
-  if (!family) {
-    throw new Error("Family not found")
-  }
+  const family = await checkFamilyExists(params.familyId ?? "familyId");
 
   return json({ family });
 };
@@ -28,46 +30,33 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
-  //   await protectedRoute(request);
-  //   const familyId = params["familyID"] ?? "familyID";
-  //   const requestClone = request.clone();
-  //   const formData = await requestClone.formData();
-  //   const family = await db.families.read(familyId);
-  //   if (!family) {
-  //     throw new Error("Family not found")
-  //   }
+  await protectedRoute(request);
+  const familyId = params["familyId"] ?? "familyId";
+  await checkFamilyExists(familyId)
+  const formInput = await inputFromForm(request);
 
-  //   const type = formData.get("type") as string;
+  const formAction = formInput["type"] as string;
 
-  //   if (type === "family_name") {
-  //     const result = await performMutation({
-  //       request,
-  //       schema: familyNameSchema,
-  //       mutation: familyNamemutation(familyId)
-  //     })
-  //     return json({ result });
-  //   }
+  if (formAction === "updateFamilyName") {
+    return await updateFamilyName(familyId, formInput);
+  }
 
-  //   if (type === "address") {
-  //     const result = await performMutation({
-  //       request,
-  //       schema: familyAddressSchema,
-  //       mutation: updateAddressMutation(familyId)
-  //     })
-  //     return json({ result });
-  //   }
-  //   if (type === "students") {
-  //     const result = await performMutation({
-  //       request,
-  //       schema: studentSchema,
-  //       mutation: updateStudentsMutation(familyId)
-  //     })
-  //     const errors = result.success ? {} : result.errors;
-  //     return json({ result });
-  //   }
+  if (formAction === "updateAddress") {
+    return await updateAddress(familyId, formInput);
+  }
+
+  if (formAction === "updateStudents") {
+    return await updateStudents(familyId, formInput);
+  }
+
+
 
   return json({
-    result: { success: false, message: "Invalid Type", errors: {} }
+    success: false,
+    errorObject: {
+      requestAction: "Invalid Request Action"
+    },
+    type: "invalidRequestAction"
   });
 };
 
