@@ -23,20 +23,17 @@ export default function FamiliesIndex() {
     return {
       id: family.id,
       family_name: family.name,
-      first_name: family.first_name,
-      last_name: family.last_name,
+      first_name: family.primaryCareGiver.first_name,
+      last_name: family.primaryCareGiver.last_name,
     }
   })
 
-  const familiesSorted = familyData
-    .sort((a, b) => a.last_name.localeCompare(b.last_name));
+
 
   return (
     <div className="px-2 md:px-6">
       <h1>Families Index</h1>
       <FamilyIndexTable data={familyData} columns={FamilyIndexTableCols} />
-      {/* <DataTable data={familiesSorted} columns={FamilyIndexTableCols} /> */}
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </div>
   );
 }

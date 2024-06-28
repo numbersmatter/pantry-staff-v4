@@ -39,7 +39,12 @@ const getFamilies = async () => {
 
     return {
       ...family,
-      ...person,
+      primaryCareGiver: {
+        id: person.id,
+        last_name: person.last_name,
+        first_name: person.first_name,
+        email: person.email,
+      },
     };
   });
 
