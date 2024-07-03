@@ -1,5 +1,6 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { ColumnDef } from "@tanstack/react-table";
+import { StandardContainer } from "~/components/common/containers";
 import { DataTable } from "~/components/common/data-table";
 import { Button } from "~/components/ui/button";
 
@@ -47,7 +48,9 @@ const programsOfAreaColumns: ColumnDef<Program>[] = [
 
 function ProgramsHeader() {
   return (
-    <h1>Programs</h1>
+    <StandardContainer >
+      <h1>Programs</h1>
+    </StandardContainer>
   )
 
 }
@@ -55,12 +58,12 @@ function ProgramsHeader() {
 
 function ProgramsList({ programsList }: { programsList: { id: string, program_area_name: string, name: string }[] }) {
   return (
-    <div>
+    <StandardContainer>
       <DataTable
         data={programsList}
         columns={programsOfAreaColumns}
       />
-    </div>
+    </StandardContainer>
   );
 }
 

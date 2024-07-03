@@ -62,11 +62,22 @@ const familyDb = (path: string) => {
     return querySnapshot.docs.map((doc) => doc.data());
   };
 
+  const readMany = async (ids: string[]) => {
+    const familyCollRef = familyCollection;
+    const docs = await Promise.all(
+      ids.map((id) => familyCollRef.doc(id).get())
+    );
+    const validDocs = docs.filter((doc) => doc.exists);
+    const familyData = validDocs.map((doc) => doc.data() as FamilyAppModel);
+    return familyData;
+  };
+
   return {
     create,
     read,
     update,
     getAll,
+    readMany,
   };
 };
 

@@ -16,10 +16,10 @@ export default function ProgramsIndexLayout() {
   let { programsList, programs } = useLoaderData<typeof loader>();
 
   return (
-    <StandardContainer>
+    <>
       <ProgramsHeader />
       <ProgramsList programsList={programsList} />
       <pre>{JSON.stringify(programs, null, 2)}</pre>
-    </StandardContainer>
+    </>
   )
 }
