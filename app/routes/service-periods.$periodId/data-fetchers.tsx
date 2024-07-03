@@ -4,16 +4,28 @@ import { db } from "~/lib/database/firestore.server";
 
 
 let getPageData = async (periodId: string) => {
-  let stats = await reportServicePeriodDashboard(periodId);
+  const period = await db.service_periods.read(periodId);
+  if (!period) throw new Error("Service period not found");
 
-  return { stats };
+  let stats = await reportServicePeriodDashboard(periodId);
+  let headerInfo = await getHeaderInfo(period.program_id);
+
+  return { stats, headerInfo };
 }
 
+async function getHeaderInfo(program_id: string) {
+  const program = await db.programs.read(program_id);
+  if (!program) throw new Error("Program not found");
+
+
+  return {
+    title: program.name,
+  };
+}
 
 async function reportServicePeriodDashboard(
   service_period_id: string
 ) {
-  const service_period = await db.service_periods.read(service_period_id);
 
   const all_transactions = await db.service_transactions.queryByField(
     "service_period_id",

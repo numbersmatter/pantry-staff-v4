@@ -10,11 +10,11 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await protectedRoute(request);
   let periodId = params.periodId ?? "periodId";
 
-  let { stats } = await getPageData(periodId);
+  let { stats, headerInfo } = await getPageData(periodId);
 
 
 
-  return json({ stats });
+  return json({ stats, headerInfo });
 };
 
 
