@@ -27,6 +27,7 @@ export default function Index() {
     <StaffShell
       navigation={[
         { name: 'Home', href: '/home', current: true },
+        { name: 'Programs', href: '/programs', current: true },
         // { name: 'Reporting', href: '/reporting/', current: false },
         // { name: 'Weekplans', href: '/weekplans/', current: false },
       ]}
