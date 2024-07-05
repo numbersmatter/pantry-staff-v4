@@ -1,3 +1,4 @@
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Outlet, json, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { StaffShell } from "~/components/shell/staff-shell";
@@ -69,4 +70,14 @@ export default function ServicePeriod() {
       <Outlet />
     </StaffShell>
   )
+}
+
+
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return <div />
+  }
+  return <div />
 }
