@@ -18,6 +18,7 @@ export default function ServicePeriodsLayout() {
     <StaffShell
       navigation={[
         { name: 'Home', href: '/', current: false },
+        { name: 'Programs', href: '/programs', current: false },
         { name: 'Service Periods', href: '/service-periods', current: true },
       ]}
       appUser={data.appUser}

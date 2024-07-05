@@ -1,3 +1,5 @@
+import { Button } from "../ui/button";
+
 export default function LogoutButton() {
   return (
     <form
@@ -5,7 +7,7 @@ export default function LogoutButton() {
       action="/logout"
       className="'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'"
     >
-      <button type="submit">Logout</button>
+      <Button variant={"outline"} type="submit">Logout</Button>
     </form>
   );
 }
