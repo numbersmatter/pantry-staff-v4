@@ -47,30 +47,30 @@ interface ServicePeriodSeatsCols {
 
 
 export const seatsOfServicePeriod: ColumnDef<ServicePeriodSeatsCols>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className="translate-y-[2px]"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //       className="translate-y-[2px]"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "family_name",
     header: "Name",
@@ -80,9 +80,13 @@ export const seatsOfServicePeriod: ColumnDef<ServicePeriodSeatsCols>[] = [
     accessorFn: (row) => row.enrolled_date === "Not Enrolled" ? 0 : 1,
     cell: ({ row }) => {
       return (
-        row.original.enrolled_date === "Not Enrolled" ?
-          <XCircleIcon className="h-5 text-red-500" />
-          : <CheckBadgeIcon className="h-5 text-green-500" />
+        <div className="grid grid-cols-1 justify-items-center">
+          {
+            row.original.enrolled_date === "Not Enrolled" ?
+              <XCircleIcon className="h-5 text-red-500 " />
+              : <CheckBadgeIcon className="h-5 text-green-500" />
+          }
+        </div>
       )
     },
     header: ({ column }) => {
