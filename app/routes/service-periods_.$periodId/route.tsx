@@ -1,10 +1,15 @@
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import { Outlet, json, useLoaderData } from "@remix-run/react"
+import {
+  Outlet,
+  json,
+  useLoaderData,
+  isRouteErrorResponse,
+  useRouteError
+} from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { StaffShell } from "~/components/shell/staff-shell";
 import { protectedRoute } from "~/lib/auth/auth.server";
 import { getPageData } from "./data-fetchers";
 import { Header } from "./components";
+import { UIShell } from "~/components/shell/ui-shell";
 
 
 
@@ -18,28 +23,28 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     links: [
       {
         name: "Overview",
-        href: `/service-periods/${periodId}`,
-        current: true
+        to: `/service-periods/${periodId}`,
+        end: true
       },
       {
         name: "Seats",
-        href: `/service-periods/${periodId}/seats`,
-        current: false
+        to: `/service-periods/${periodId}/seats`,
+        end: false
       },
       {
         name: "Services",
-        href: `/service-periods/${periodId}/services`,
-        current: false
+        to: `/service-periods/${periodId}/services`,
+        end: false
       },
       {
         name: "Families",
-        href: `/service-periods/${periodId}/families`,
-        current: false
+        to: `/service-periods/${periodId}/families`,
+        end: false
       },
       {
         name: "Service Lists",
-        href: `/service-periods/${periodId}/service-lists`,
-        current: false
+        to: `/service-periods/${periodId}/service-lists`,
+        end: false
       },
     ]
   }
@@ -56,19 +61,13 @@ export default function ServicePeriod() {
 
 
   return (
-    <StaffShell
-      navigation={[
-        { name: 'Home', href: '/', current: false },
-        { name: 'Programs', href: '/programs', current: false },
-        { name: 'Service Periods', href: '/service-periods', current: true },
-
-      ]}
+    <UIShell
       secondaryNav={data.secondaryNav}
       appUser={data.appUser}
     >
       <Header />
       <Outlet />
-    </StaffShell>
+    </UIShell>
   )
 }
 

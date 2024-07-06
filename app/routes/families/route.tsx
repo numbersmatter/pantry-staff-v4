@@ -1,7 +1,7 @@
 import { Outlet, json, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { StaffShell } from "~/components/shell/staff-shell";
 import { protectedRoute } from "~/lib/auth/auth.server";
+import { UIShell } from "~/components/shell/ui-shell";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   let { appUser } = await protectedRoute(request)
@@ -15,18 +15,19 @@ export default function FamiliesLayout() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <StaffShell
-      navigation={[
-        { name: 'Home', href: '/home', current: true },
-        { name: 'Families', href: '/families', current: true },
-        { name: 'Add Family', href: '/families/add', current: true },
-        // { name: 'Reporting', href: '/reporting/', current: false },
-        // { name: 'Weekplans', href: '/weekplans/', current: false },
-      ]}
+    <UIShell
+      secondaryNav={{
+        name: 'Families',
+        links: [
+          { name: 'Add Family', to: 'add', end: true },
+          // { name: 'Reporting', href: '/reporting/', current: false },
+          // { name: 'Weekplans', href: '/weekplans/', current: false },
+        ],
+      }}
       appUser={data.appUser}
     >
       <Outlet />
-    </StaffShell>
+    </UIShell>
   );
 
 }

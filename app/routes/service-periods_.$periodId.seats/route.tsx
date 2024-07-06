@@ -2,7 +2,6 @@ import { json, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
 import { getSeatData } from "./data-fetchers";
-import { db } from "~/lib/database/firestore.server";
 import { SeatsTable } from "./components/seats-table";
 
 
@@ -22,8 +21,8 @@ export default function ServicePeriodsPeriodIdSeats() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <>
       <SeatsTable />
-    </div>
+    </>
   );
 }
