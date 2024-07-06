@@ -37,11 +37,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         end: false
       },
       {
-        name: "Families",
-        to: `/service-periods/${periodId}/families`,
-        end: false
-      },
-      {
         name: "Service Lists",
         to: `/service-periods/${periodId}/service-lists`,
         end: false
