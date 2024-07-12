@@ -30,6 +30,8 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon, XCircleIcon } from "@heroicons/react/20/solid"
+import { AddAllFamilies } from "~/components/task-components/add-all-families"
+import { AddFamilyToSeatDialog } from "./add-to-seat-form"
 
 
 interface DataTableProps<TData, TValue> {
@@ -125,7 +127,10 @@ export const seatsOfServicePeriod: ColumnDef<ServicePeriodSeatsCols>[] = [
     header: "Link",
     cell: ({ row }) => {
       return (
-        <Link to={`${row.original.id}`}>Link</Link>
+        <AddFamilyToSeatDialog
+          familyName={row.original.family_name}
+          familyId={row.original.id}
+        />
       )
     }
   }
@@ -257,14 +262,14 @@ export function SeatsTable() {
   }
   )
 
-  const seatsData = data.seatData.map(seat => {
-    return {
-      id: seat.id,
-      family_name: seat.family_name,
-      enrolled_date: new Date(seat.enrolled_date),
-      number_of_members: seat.number_of_members,
-    }
-  })
+  // const seatsData = data.seatData.map(seat => {
+  //   return {
+  //     id: seat.id,
+  //     family_name: seat.family_name,
+  //     enrolled_date: new Date(seat.enrolled_date),
+  //     number_of_members: seat.number_of_members,
+  //   }
+  // })
 
   return (
     <StandardContainer>

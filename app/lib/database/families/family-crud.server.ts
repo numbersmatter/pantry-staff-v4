@@ -4,6 +4,7 @@ import {
   Timestamp,
   QueryDocumentSnapshot,
   getFirestore,
+  FieldValue,
 } from "firebase-admin/firestore";
 import { FamilyAdd, FamilyAppModel, FamilyDbModel } from "./types";
 
@@ -38,7 +39,7 @@ const familyDb = (path: string) => {
     const data = {
       ...family,
       id: "",
-      created_date: new Date(),
+      created_date: FieldValue.serverTimestamp(),
     };
     const familyCollRef = familyCollection;
     const docRef = await familyCollRef.add(data);
