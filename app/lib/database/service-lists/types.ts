@@ -16,7 +16,7 @@ interface ServiceListBase {
   service_period_id: ServicePeriodId;
   service_period: ServicePeriodDbModel;
   seats_array: SeatId[];
-  service_type: ServiceTransactionType;
+  service_type: string;
   service_items: ItemLine[];
   status: ListStatus;
 }
@@ -52,7 +52,7 @@ export interface ServiceListAdd {
   service_period_id: ServicePeriodId;
   service_period: ServicePeriodDbModel;
   seats_array: SeatId[];
-  service_type: ServiceTransactionType;
+  service_type: string;
   service_items: ItemLine[];
 }
 
