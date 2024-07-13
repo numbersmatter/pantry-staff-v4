@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import { StandardContainer } from "~/components/common/containers";
+import { ContainerPadded, StandardContainer } from "~/components/common/containers";
 import AddMenuItemDialog from "~/components/forms/add-menu-item";
 import {
   Card,
@@ -17,7 +17,7 @@ import { AddServiceItemDialog } from "./add-service-item";
 export function MenuCard() {
   const { menuCardData, listId } = useLoaderData<typeof loader>();
   return (
-    <StandardContainer>
+    <ContainerPadded>
       <Card>
         <CardHeader>
           <CardTitle>
@@ -36,6 +36,6 @@ export function MenuCard() {
           />
         </CardFooter>
       </Card>
-    </StandardContainer>
+    </ContainerPadded>
   )
 }

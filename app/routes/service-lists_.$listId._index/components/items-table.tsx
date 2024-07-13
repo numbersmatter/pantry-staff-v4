@@ -28,6 +28,7 @@ import { StandardContainer } from "~/components/common/containers"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline"
+import { UpdateServiceItemDialog } from "./update-service-item"
 
 
 interface DataTableProps<TData, TValue> {
@@ -41,6 +42,11 @@ interface ItemTableCols {
   quantity: number;
   unitValue: number;
 }
+
+let USDollar = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 
 const serviceItemsCols: ColumnDef<ItemTableCols>[] = [
@@ -89,7 +95,7 @@ const serviceItemsCols: ColumnDef<ItemTableCols>[] = [
       return (
         <div className="grid grid-cols-1 justify-items-center">
           {
-            row.original.unitValue
+            USDollar.format(row.original.unitValue / 100)
           }
         </div>
       )
@@ -97,7 +103,7 @@ const serviceItemsCols: ColumnDef<ItemTableCols>[] = [
   },
   {
     id: "totalValue",
-    accessorFn: (row) => row.quantity * row.unitValue,
+    accessorFn: (row) => USDollar.format(row.quantity * row.unitValue / 100),
     header: "Total Value",
   },
   {
@@ -105,7 +111,9 @@ const serviceItemsCols: ColumnDef<ItemTableCols>[] = [
     header: "Link",
     cell: ({ row }) => {
       return (
-        <p>menu</p>
+        <UpdateServiceItemDialog
+          item_id={row.original.id}
+        />
       )
     }
   }

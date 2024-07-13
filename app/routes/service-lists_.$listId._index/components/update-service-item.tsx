@@ -1,4 +1,4 @@
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "~/components/ui/dialog";
-import { action } from "../route";
+import { action, loader } from "../route";
 import { useEffect, useState } from "react";
 import { FormTextField } from "~/components/forms/textfield";
 import { FormNumberField } from "~/components/forms/number-field";
@@ -17,15 +17,19 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 
 
-export function AddServiceItemDialog({
-  listId,
+export function UpdateServiceItemDialog({
+  item_id,
 }: {
-  listId: string,
+  item_id: string,
 }) {
+  const loaderData = useLoaderData<typeof loader>();
   let fetcher = useFetcher<typeof action>();
   const [open, setOpen] = useState(false);
 
-  const actionUrl = `/service-lists/${listId}?index`
+  // const actionUrl = `/service-lists/${listId}?index`
+
+  let listId = loaderData.listId;
+  let itemData = loaderData.items.find((i) => i.item_id === item_id);
 
   let actionData = fetcher.data;
   let isFetching = fetcher.state !== "idle";
@@ -47,35 +51,38 @@ export function AddServiceItemDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button type="button">
-          Add Item
+          Update
         </Button>
       </DialogTrigger>
 
       <DialogContent className="">
-        <fetcher.Form method="post" action={actionUrl}>
+        <fetcher.Form method="post" >
           <DialogHeader>
-            <DialogTitle>Add Item</DialogTitle>
+            <DialogTitle>Update Item</DialogTitle>
             <DialogDescription>
-              Service lists are used to track the delivery of services to families.
+              Update item or delete it.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 ">
-            <input readOnly hidden name="type" value="addItem" />
             <input readOnly hidden name="service_list_id" value={listId} />
+            <input readOnly hidden name="item_id" value={item_id} />
             <FormTextField
               label="Name"
               id="name"
+              defaultValue={itemData?.item_name}
               error={nameError}
             />
             <FormNumberField
               label="Quantity"
               id="quantity"
+              defaultValue={itemData?.quantity}
               error={quantityError}
             />
             <ReminderText />
             <FormNumberField
               label="Unit Value"
               id="value"
+              defaultValue={itemData?.value}
               error={valueError}
             />
           </div>
@@ -83,9 +90,22 @@ export function AddServiceItemDialog({
             {/* <pre>{JSON.stringify(actionData, null, 2)}</pre> */}
           </div>
 
-          <DialogFooter>
-            <Button type="submit" variant={"default"}>
-              Add
+          <DialogFooter className="gap-3 sm:justify-between">
+            <Button
+              name="type"
+              value="deleteItem"
+              type="submit"
+              variant={"destructive"}
+            >
+              Delete
+            </Button>
+            <Button
+              name="type"
+              value="updateItem"
+              type="submit"
+              variant={"default"}
+            >
+              Update
             </Button>
           </DialogFooter>
         </fetcher.Form>

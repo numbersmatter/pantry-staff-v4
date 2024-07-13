@@ -10,6 +10,7 @@ import {
 
 import {
   ItemLine,
+  ItemTypes,
   ListStatus,
   ServiceList,
   ServiceListAdd,
@@ -88,7 +89,14 @@ let serviceListDB = (path: string) => {
     return snapshot.docs.map((doc) => doc.data());
   };
 
-  const addItem = async (id: ServiceListId, item: ItemLine) => {
+  interface ItemInputs {
+    item_name: string;
+    quantity: number;
+    value: number;
+    type: ItemTypes;
+  }
+
+  const addItem = async (id: ServiceListId, item: ItemInputs) => {
     const itemId = serviceLists_collection().doc().id;
     const addItem: ItemLine = {
       ...item,
@@ -104,6 +112,36 @@ let serviceListDB = (path: string) => {
     const docRef = serviceLists_collection().doc(id);
     await docRef.update({
       service_items: FieldValue.arrayRemove(item),
+    });
+  };
+
+  const updateServiceItem = async ({
+    listId,
+    newItem,
+  }: {
+    listId: ServiceListId;
+    newItem: ItemLine;
+  }) => {
+    const docRef = serviceLists_collection().doc(listId);
+
+    const serviceList = await docRef.get();
+    if (!serviceList.exists) {
+      return;
+    }
+    const data = serviceList.data() as ServiceList;
+
+    const serviceItems = data.service_items.map((item) => {
+      if (item.item_id === newItem.item_id) {
+        return {
+          ...item,
+          ...newItem,
+        };
+      }
+      return item;
+    });
+
+    await docRef.update({
+      service_items: serviceItems,
     });
   };
 
@@ -139,6 +177,7 @@ let serviceListDB = (path: string) => {
     addSeat,
     removeSeat,
     inPeriod,
+    updateServiceItem,
   };
 };
 
