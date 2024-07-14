@@ -5,7 +5,28 @@ import { protectedRoute } from "~/lib/auth/auth.server";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   let { appUser } = await protectedRoute(request);
-  return { appUser };
+
+  const taskMenu = {
+    name: "Service List",
+    links: [
+      {
+        name: "Service Items",
+        to: `/service-lists/${params.listId}`,
+        end: true,
+      },
+      {
+        name: "Seats",
+        to: `/service-lists/${params.listId}/seats`,
+        end: true,
+      },
+      {
+        name: "Preview",
+        to: `/service-lists/${params.listId}/preview`,
+        end: true,
+      }
+    ],
+  }
+  return { appUser, taskMenu };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -15,10 +36,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 
 export default function ServiceListPageLayout() {
-  const { appUser } = useLoaderData<typeof loader>();
+  const { appUser, taskMenu } = useLoaderData<typeof loader>();
   return (
     <UIShell
       appUser={appUser}
+      secondaryNav={taskMenu}
     >
       <Outlet />
     </UIShell>

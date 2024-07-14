@@ -26,7 +26,7 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon, XCircleIcon } from "@heroicons/react/20/solid"
-import { AddFamilyToSeatDialog } from "./add-to-seat-form"
+import AddSeatToList from "./add-seat-to-list"
 
 
 interface DataTableProps<TData, TValue> {
@@ -34,72 +34,21 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
-interface ServicePeriodSeatsCols {
+interface ListSeatsCols {
   id: string;
   family_name: string;
-  caregiver_last_name: string;
-  caregiver_email: string;
-  enrolled_date: Date | string;
+  last_name: string;
+  onList: boolean;
 }
 
 
-export const seatsOfServicePeriod: ColumnDef<ServicePeriodSeatsCols>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="translate-y-[2px]"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px]"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
+const listSeatsCols: ColumnDef<ListSeatsCols>[] = [
   {
     accessorKey: "family_name",
     header: "Name",
   },
   {
-    id: "enrolled",
-    accessorFn: (row) => row.enrolled_date === "Not Enrolled" ? 0 : 1,
-    cell: ({ row }) => {
-      return (
-        <div className="grid grid-cols-1 justify-items-center">
-          {
-            row.original.enrolled_date === "Not Enrolled" ?
-              <XCircleIcon className="h-5 text-red-500 " />
-              : <CheckBadgeIcon className="h-5 text-green-500" />
-          }
-        </div>
-      )
-    },
-    header: ({ column }) => {
-      return (
-        <Button
-          variant={"ghost"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Enrolled
-          <ArrowsUpDownIcon className="ml-2 w-4 h-4" />
-        </Button>
-      )
-    }
-  },
-  {
-    accessorKey: "caregiver_last_name",
+    accessorKey: "last_name",
     header: ({ column }) => {
       return (
         <Button
@@ -113,26 +62,19 @@ export const seatsOfServicePeriod: ColumnDef<ServicePeriodSeatsCols>[] = [
     }
   },
   {
-    accessorKey: "enrolled_date",
-    header: "Enrollment Date",
-  },
-  {
     id: "id",
     accessorKey: "id",
     header: "Link",
     cell: ({ row }) => {
       return (
-        <AddFamilyToSeatDialog
-          familyName={row.original.family_name}
-          familyId={row.original.id}
-        />
+        <AddSeatToList seatId={row.original.id} onList={row.original.onList} />
       )
     }
   }
 ]
 
 
-export function FamilyIndexTable<TData, TValue>({
+function ListTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -161,9 +103,9 @@ export function FamilyIndexTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Last Name..."
-          value={(table.getColumn("caregiver_last_name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("last_name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("caregiver_last_name")?.setFilterValue(event.target.value)
+            table.getColumn("last_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -245,32 +187,13 @@ export function FamilyIndexTable<TData, TValue>({
 export function SeatsTable() {
   let data = useLoaderData<typeof loader>();
 
-  const familiesData = data.families.map(family => {
-    return {
-      id: family.id,
-      family_name: family.name,
-      caregiver_last_name: family.primaryCareGiver.last_name,
-      caregiver_email: family.primaryCareGiver.email,
-      enrolled_date: family.enrolled_date
-        ? new Date(family.enrolled_date).toDateString() : "Not Enrolled",
-    }
-  }
-  )
 
-  // const seatsData = data.seatData.map(seat => {
-  //   return {
-  //     id: seat.id,
-  //     family_name: seat.family_name,
-  //     enrolled_date: new Date(seat.enrolled_date),
-  //     number_of_members: seat.number_of_members,
-  //   }
-  // })
 
   return (
     <StandardContainer>
-      <FamilyIndexTable
-        columns={seatsOfServicePeriod}
-        data={familiesData}
+      <ListTable
+        columns={listSeatsCols}
+        data={data.seatsData}
       />
     </StandardContainer>
   )

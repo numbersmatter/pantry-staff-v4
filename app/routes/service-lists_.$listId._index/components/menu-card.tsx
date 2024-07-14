@@ -17,7 +17,7 @@ import { AddServiceItemDialog } from "./add-service-item";
 export function MenuCard() {
   const { menuCardData, listId } = useLoaderData<typeof loader>();
   return (
-    <ContainerPadded>
+    <ContainerPadded className="py-0 sm:py-4">
       <Card>
         <CardHeader>
           <CardTitle>
