@@ -1,5 +1,6 @@
 import {
   json,
+  redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs
 } from "@remix-run/node";
@@ -12,7 +13,11 @@ import { addServiceItem, deleteServiceItem, updateServiceItem } from "./mutation
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await protectedRoute(request);
   const listId = params.listId ?? "listId";
-  const { menuCardData, items } = await getServiceListData(listId)
+  const { menuCardData, items, status } = await getServiceListData(listId)
+
+  if (status !== "preparing") {
+    throw redirect(`/service-lists/${listId}`)
+  }
 
   return json({
     menuCardData,

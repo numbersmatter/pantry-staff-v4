@@ -1,3 +1,4 @@
+import { redirect } from "@remix-run/node";
 import { FamilyAppModel } from "~/lib/database/families/types";
 import { db } from "~/lib/database/firestore.server";
 
@@ -6,6 +7,10 @@ const getServiceListSeatsData = async (listId: string | undefined) => {
   const list = await db.service_lists.read(service_list_id);
   if (!list) {
     throw new Error(`Service List with ID ${service_list_id} not found`);
+  }
+
+  if (list.status !== "preparing") {
+    throw redirect(`/service-lists/${service_list_id}`);
   }
 
   const seatsOnOrderList = list.seats_array;

@@ -14,6 +14,7 @@ const getServiceListData = async (listId: string) => {
   return {
     menuCardData,
     items: list.service_items,
+    status: list.status,
   };
 };
 

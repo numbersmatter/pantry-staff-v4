@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button"
 import {
   Card,
@@ -8,11 +8,12 @@ import {
   CardHeader,
   CardTitle
 } from "~/components/ui/card"
-import { loader } from "../route";
+import { action, loader } from "../route";
 
 
 function PreviewCard() {
-  const { previewData } = useLoaderData<typeof loader>();
+  const { previewData, listId, backLink } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<typeof action>()
   const { serviceType, numberOfRecords, title } = previewData;
 
   return (
@@ -30,7 +31,14 @@ function PreviewCard() {
 
         </CardContent>
         <CardFooter className="flex flex-row justify-between" >
-          <Button variant="link">Back</Button>
+          <Link to={backLink}>Back</Link>
+          <fetcher.Form method="post">
+            <input type="hidden" name="actionType" value="applyServiceList" />
+            <input type="hidden" name="serviceListID" value={listId} />
+            <Button type="submit" variant="default">
+              Apply
+            </Button>
+          </fetcher.Form>
         </CardFooter>
       </Card>
     </div>

@@ -11,9 +11,10 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const listId = params.listId ?? "listId";
 
   const previewData = await getPreviewData(listId);
+  const backLink = `/service-lists/${listId}/seats`;
 
 
-  return json({ previewData }, { status: 200 });
+  return json({ previewData, listId, backLink }, { status: 200 });
 };
 
 
