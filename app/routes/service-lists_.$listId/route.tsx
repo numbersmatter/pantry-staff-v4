@@ -11,7 +11,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     links: [
       {
         name: "Service Items",
-        to: `/service-lists/${params.listId}`,
+        to: `/service-lists/${params.listId}/menu`,
         end: true,
       },
       {

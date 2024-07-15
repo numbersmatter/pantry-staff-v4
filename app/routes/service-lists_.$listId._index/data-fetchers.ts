@@ -1,20 +1,19 @@
+import { redirect } from "@remix-run/node";
 import { db } from "~/lib/database/firestore.server";
 
-const getServiceListData = async (listId: string) => {
+const checkListStatus = async (listId: string) => {
   const list = await db.service_lists.read(listId);
   if (!list) {
-    throw new Error("Service list not found");
+    throw new Error(`List with id ${listId} not found`);
   }
 
-  const menuCardData = {
-    name: list.name,
-    description: list.description,
-  };
+  if (list.status === "preparing") {
+    throw redirect(`/service-lists/${listId}/menu`);
+  }
 
   return {
-    menuCardData,
-    items: list.service_items,
+    list,
   };
 };
 
-export { getServiceListData };
+export { checkListStatus };
