@@ -6,7 +6,7 @@ const getPageData = async (listId: string) => {
     throw new Error(`List with id ${listId} not found`);
   }
 
-  const taskMenu = {
+  const taskMenuPreparing = {
     name: "Service List",
     links: [
       {
@@ -26,8 +26,32 @@ const getPageData = async (listId: string) => {
       },
     ],
   };
+
+  const taskMenuUpdating = {
+    name: "Update Service List",
+    links: [
+      {
+        name: "Update Service Items",
+        to: `/service-lists/${listId}/update/menu`,
+        end: true,
+      },
+      {
+        name: "Update Seats",
+        to: `/service-lists/${listId}/update/seats`,
+        end: true,
+      },
+      {
+        name: "Preview Changes",
+        to: `/service-lists/${listId}/update`,
+        end: true,
+      },
+    ],
+  };
   const listName = `Service List: ${list.name}`;
   const servicePeriod = list.service_period.name;
+
+  const taskMenu =
+    list.status === "preparing" ? taskMenuPreparing : taskMenuUpdating;
 
   const headerData = {
     title: listName,

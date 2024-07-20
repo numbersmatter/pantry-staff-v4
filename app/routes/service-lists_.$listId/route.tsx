@@ -15,7 +15,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 
 
-  return { appUser, taskMenu, headerData, showMenu };
+  return { appUser, taskMenu, headerData, };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -25,13 +25,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 
 export default function ServiceListPageLayout() {
-  const { appUser, taskMenu, showMenu } = useLoaderData<typeof loader>();
+  const { appUser, taskMenu, } = useLoaderData<typeof loader>();
 
-  const secondaryNav = showMenu ? taskMenu : undefined;
   return (
     <UIShell
       appUser={appUser}
-      secondaryNav={secondaryNav}
+      secondaryNav={taskMenu}
     >
       <ServiceListHeader />
       <Outlet />
