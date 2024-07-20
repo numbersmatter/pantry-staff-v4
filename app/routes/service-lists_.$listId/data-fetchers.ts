@@ -42,7 +42,7 @@ const getPageData = async (listId: string) => {
       },
       {
         name: "Preview Changes",
-        to: `/service-lists/${listId}/update`,
+        to: `/service-lists/${listId}/update/preview`,
         end: true,
       },
     ],
