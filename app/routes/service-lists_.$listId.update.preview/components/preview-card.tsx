@@ -22,7 +22,8 @@ function PreviewCard() {
     cancelled_records,
     update_transactions,
     new_records,
-    title
+    title,
+    last_action_id,
   } = previewData;
 
   return (
@@ -67,8 +68,9 @@ function PreviewCard() {
         <CardFooter className="flex flex-row justify-between" >
           <Link to={backLink}>Back</Link>
           <fetcher.Form method="post">
-            <input type="hidden" name="actionType" value="applyServiceList" />
+            <input type="hidden" name="actionType" value="updateServiceList" />
             <input type="hidden" name="serviceListID" value={listId} />
+            <input type="hidden" name="last_action_id" value={last_action_id} />
             <Button type="submit" variant="default">
               Apply
             </Button>

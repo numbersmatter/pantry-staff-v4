@@ -62,6 +62,7 @@ const getPreviewData = async (listId: string) => {
     new_records,
     cancelled_records,
     update_transactions,
+    last_action_id: last_action.id,
   };
 };
 

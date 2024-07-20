@@ -28,7 +28,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     staff_name: `${appUser.fname} ${appUser.lname}`,
   }
 
-  if (formInput.actionType === "applyServiceList") {
+  if (formInput.actionType === "updateServiceList") {
     return await applyServiceList({ staff, formInput });
   }
   return json({
