@@ -12,7 +12,7 @@ const navigation = [
   { name: 'Home', to: '/', end: true },
   { name: 'Programs', to: '/programs', end: false },
   { name: 'Families', to: '/families', end: false },
-  { name: 'Service Periods', to: '/sevice-periods', end: false },
+  { name: 'Service Periods', to: '/service-periods', end: false },
 ]
 
 function classNames(...classes: string[]) {

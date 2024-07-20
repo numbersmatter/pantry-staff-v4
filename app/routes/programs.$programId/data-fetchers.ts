@@ -24,4 +24,20 @@ let getProgramData = async (programId: string) => {
   };
 };
 
-export { getCurrentPeriod, getProgramData };
+const getColumnData = async (programId: string) => {
+  const servicePeriods = await db.service_periods.byProgramId(programId);
+
+  const columnData = servicePeriods.map((servicePeriod) => {
+    return {
+      id: servicePeriod.id,
+      name: servicePeriod.name,
+      description: servicePeriod.description,
+      start_date: servicePeriod.start_date.toLocaleDateString(),
+      end_date: servicePeriod.end_date.toLocaleDateString(),
+    };
+  });
+
+  return columnData;
+};
+
+export { getCurrentPeriod, getProgramData, getColumnData };

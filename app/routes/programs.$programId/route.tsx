@@ -2,9 +2,11 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
-import { getCurrentPeriod, getProgramData } from "./data-fetchers";
+import { getColumnData, getCurrentPeriod, getProgramData } from "./data-fetchers";
 import { inputFromForm } from "composable-functions";
 import ProgramCard from "./components/program_card";
+import ServicePeriodTable from "./components/service-periods-table";
+
 
 
 
@@ -12,7 +14,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await protectedRoute(request);
   const programId = params.programId ?? "programId";
   const program = await getProgramData(programId);
-  return json({ program });
+  const columnData = await getColumnData(programId);
+  return json({ program, columnData });
 };
 
 
@@ -38,6 +41,7 @@ export default function ProgramsId() {
   return (
     <>
       <ProgramCard />
+      <ServicePeriodTable />
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </>
   )
