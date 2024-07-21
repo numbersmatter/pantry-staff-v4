@@ -6,6 +6,7 @@ import { getColumnData, getCurrentPeriod, getProgramData } from "./data-fetchers
 import { inputFromForm } from "composable-functions";
 import ProgramCard from "./components/program_card";
 import ServicePeriodTable from "./components/service-periods-table";
+import { createServicePeriod } from "./mutations";
 
 
 
@@ -30,6 +31,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   if (action === "goToPeriod") {
     const currentPeriod = await getCurrentPeriod(programId);
     return redirect(`/service-periods/${currentPeriod}`);
+  }
+
+  if (action === "createPeriod") {
+    return await createServicePeriod({ formInput });
   }
 
   return null;

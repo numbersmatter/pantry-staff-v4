@@ -1,9 +1,10 @@
 import { StandardContainer } from "~/components/common/containers";
 import { DataTable } from "~/components/common/data-table";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { loader } from "../route";
 import { Link, useLoaderData } from "@remix-run/react";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "~/components/ui/button";
 
 
 interface ServicePeriodCols {
@@ -50,10 +51,32 @@ export default function ServicePeriodTable() {
           <CardTitle>
             Service Periods
           </CardTitle>
+          <CardDescription>
+            A list of all the service periods in this program.
+          </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="py-3 sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+
+              {/* <p className="mt-2 text-sm text-gray-700">
+                A list of all the users in your account including their name, title, email and role.
+              </p> */}
+            </div>
+            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+
+            </div>
+          </div>
           <DataTable columns={columns} data={columnData} />
         </CardContent>
+        <CardFooter>
+          <Button
+            type="button"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Add Service Period
+          </Button>
+        </CardFooter>
       </Card>
 
     </StandardContainer>
