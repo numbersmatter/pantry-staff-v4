@@ -5,6 +5,7 @@ import { loader } from "../route";
 import { Link, useLoaderData } from "@remix-run/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "~/components/ui/button";
+import { CreatePeriodDialog } from "./create-period-dialog";
 
 
 interface ServicePeriodCols {
@@ -70,12 +71,7 @@ export default function ServicePeriodTable() {
           <DataTable columns={columns} data={columnData} />
         </CardContent>
         <CardFooter>
-          <Button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add Service Period
-          </Button>
+          <CreatePeriodDialog />
         </CardFooter>
       </Card>
 

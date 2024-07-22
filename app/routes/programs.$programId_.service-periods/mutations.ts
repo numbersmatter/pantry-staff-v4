@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import {
   QueryStringRecord,
   serialize,
@@ -44,17 +44,14 @@ const createServicePeriod = async ({
   const result = await createServicePeriodMutation(formInput);
 
   if (!result.success) {
-    const errors = serialize(result);
+    const info = serialize(result);
     return json({
       success: false,
-      errors,
+      errors: info.errors,
     });
   }
 
-  return json({
-    success: true,
-    data: result.data,
-  });
+  return redirect(`/service-periods/${result.data.id}`);
 };
 
 export { createServicePeriod };
