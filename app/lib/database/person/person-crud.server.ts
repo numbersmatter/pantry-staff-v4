@@ -66,6 +66,11 @@ const personDb = (path: string) => {
   const getList = async (list: string[]): Promise<PersonAppModel[]> => {
     const personCollRef = personCollection();
     const firestore = getFirestore();
+
+    if (list.length === 0) {
+      return [];
+    }
+
     const personList = await firestore.getAll(
       ...list.map((id) => personCollRef.doc(id))
     );

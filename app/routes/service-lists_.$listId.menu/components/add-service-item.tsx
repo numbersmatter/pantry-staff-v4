@@ -25,7 +25,6 @@ export function AddServiceItemDialog({
   let fetcher = useFetcher<typeof action>();
   const [open, setOpen] = useState(false);
 
-  const actionUrl = `/service-lists/${listId}?index`
 
   let actionData = fetcher.data;
   let isFetching = fetcher.state !== "idle";
@@ -52,7 +51,7 @@ export function AddServiceItemDialog({
       </DialogTrigger>
 
       <DialogContent className="">
-        <fetcher.Form method="post" action={actionUrl}>
+        <fetcher.Form method="post">
           <DialogHeader>
             <DialogTitle>Add Item</DialogTitle>
             <DialogDescription>
