@@ -8,14 +8,19 @@ import {
 import { z } from "zod";
 import { db } from "~/lib/database/firestore.server";
 
-const NewServicePeriodSchema = z.object({
-  name: z.string().min(3).max(100),
-  description: z.string().nonempty().min(3).max(1000),
-  start_date: z.coerce.date(),
-  end_date: z.coerce.date(),
-  capacity: z.coerce.number().int().positive(),
-  program_id: z.string().length(20),
-});
+const NewServicePeriodSchema = z
+  .object({
+    name: z.string().min(3).max(100),
+    description: z.string().nonempty().min(3).max(1000),
+    start_date: z.coerce.date(),
+    end_date: z.coerce.date(),
+    capacity: z.coerce.number().int().positive(),
+    program_id: z.string().length(20),
+  })
+  .refine((data) => data.end_date > data.start_date, {
+    message: "End date cannot be earlier than start date.",
+    path: ["end_date"],
+  });
 
 const createServicePeriodMutation = withSchema(NewServicePeriodSchema)(
   async (values) => {

@@ -19,8 +19,11 @@ import { inputFromForm } from "composable-functions";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await protectedRoute(request);
+  const programId = params.programId ?? "programId";
 
-  return json({});
+
+
+  return json({ programId });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {

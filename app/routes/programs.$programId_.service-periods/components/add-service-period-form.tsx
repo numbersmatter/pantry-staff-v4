@@ -1,20 +1,33 @@
 
-import { Form, useActionData } from '@remix-run/react'
+import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { DateInput } from '~/components/forms/date-input'
-import { action } from '../route'
+import { action, loader } from '../route'
 import { SerializableError } from 'composable-functions'
 
 export default function AddPeriodForm() {
   const actionData = useActionData<typeof action>()
+  const loaderData = useLoaderData<typeof loader>()
 
   const errors = actionData ? actionData.errors : []
 
   const nameErrors = errors.filter((error) => error.path.includes('name'))
+  const descriptionErrors = errors
+    .filter((error) => error.path.includes('description'))
+
+  const capacityErrors = errors
+    .filter((error) => error.path.includes('capacity'))
+
+  const startDateErrors = errors
+    .filter((error) => error.path.includes('start_date'))
+
+  const endDateErrors = errors
+    .filter((error) => error.path.includes('end_date'))
 
   return (
-    <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div className=" max-w-7xl sm:px-6 lg:px-8">
       <Form method="POST" className='px-3'>
         <input type="hidden" name="_action" value="createPeriod" readOnly />
+        <input type="hidden" name="program_id" value={loaderData.programId} readOnly />
         <div className="space-y-12 sm:space-y-16">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -41,7 +54,7 @@ export default function AddPeriodForm() {
                   </div>
                   {
                     nameErrors.length > 0 && (
-                      <p className="mt-2 text-sm text-red-600" id="name-error">
+                      <p className="mt-2 text-lg text-red-600" id="name-error">
                         {nameErrors[0].message}
                       </p>
                     )
@@ -53,6 +66,7 @@ export default function AddPeriodForm() {
                   Description
                 </label>
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
+
                   <textarea
                     id="description"
                     name="description"
@@ -60,9 +74,14 @@ export default function AddPeriodForm() {
                     className="block w-full max-w-2xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={''}
                   />
-                  <p className="mt-3 text-sm leading-6 text-gray-600">
+                  {
+                    descriptionErrors.length > 0 && (
+                      <p className="mt-2 text-lg text-red-600" id="name-error">
+                        {descriptionErrors[0].message}
+                      </p>
+                    )
+                  }
 
-                  </p>
                 </div>
               </div>
             </div>
@@ -74,6 +93,13 @@ export default function AddPeriodForm() {
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
               The number of seats this program can support.
             </p>
+            {
+              capacityErrors.length > 0 && (
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                  {capacityErrors[0].message}
+                </p>
+              )
+            }
             <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label htmlFor="capacity" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
@@ -90,6 +116,13 @@ export default function AddPeriodForm() {
                     />
                   </div>
                 </div>
+                {
+                  capacityErrors.length > 0 && (
+                    <p className="mt-2 text-lg text-red-600" id="name-error">
+                      {capacityErrors[0].message}
+                    </p>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -100,7 +133,13 @@ export default function AddPeriodForm() {
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
               Enter the date when the services start.
             </p>
-
+            {
+              startDateErrors.length > 0 && (
+                <p className="mt-2 text-lg text-red-600" id="name-error">
+                  {startDateErrors[0].message}
+                </p>
+              )
+            }
             <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label htmlFor="start_date" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
@@ -108,6 +147,13 @@ export default function AddPeriodForm() {
                 </label>
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <DateInput inputId={"start_date"} />
+                  {
+                    startDateErrors.length > 0 && (
+                      <p className="mt-2 text-lg text-red-600" id="name-error">
+                        {startDateErrors[0].message}
+                      </p>
+                    )
+                  }
                 </div>
               </div>
             </div>
@@ -128,6 +174,13 @@ export default function AddPeriodForm() {
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <DateInput inputId={"end_date"} />
                 </div>
+                {
+                  endDateErrors.length > 0 && (
+                    <p className="mt-2 text-sm text-red-600" id="name-error">
+                      {endDateErrors[0].message}
+                    </p>
+                  )
+                }
               </div>
             </div>
           </div>
