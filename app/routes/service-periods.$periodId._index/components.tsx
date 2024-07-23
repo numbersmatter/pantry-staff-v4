@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react"
 import { StandardContainer } from "~/components/common/containers"
 import { BriefcaseIcon, MapPinIcon } from "lucide-react"
-import { loader } from "../service-periods_.$periodId/route"
+import { loader } from "./route"
 
 
 
@@ -19,7 +19,7 @@ function ServicePeriodDashboard() {
   let { stats } = useLoaderData<typeof loader>()
   return (
     <StandardContainer >
-      <h3>Dashboard</h3>
+      <h3>Dashboard3</h3>
       <DataCards stats={stats} />
     </StandardContainer>
   )

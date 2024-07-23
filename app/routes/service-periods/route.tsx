@@ -1,48 +1,93 @@
-import { Outlet, json, useLoaderData } from "@remix-run/react"
+import {
+  Outlet,
+  json,
+  useLoaderData,
+  isRouteErrorResponse,
+  useRouteError
+} from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
-import { getServicePeriods } from "./data-fetchers";
 import { UIShell } from "~/components/shell/ui-shell";
-import { ServicePeriodTable } from "./components/service-period-table";
-
+import { checkServicePeriod } from "./data-fetchers";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   let { appUser } = await protectedRoute(request);
+  let periodId = params.periodId ?? "periodId";
 
-  const servicePeriodsData = await getServicePeriods();
+  const servicePeriodExist = await checkServicePeriod(periodId);
 
-  return json({ appUser, servicePeriodsData });
+  const periodExistsNav = {
+    name: "Modify Service Period",
+    links: [
+      {
+        name: "Overview",
+        to: `/service-periods/${periodId}`,
+        end: true
+      },
+      {
+        name: "Seats",
+        to: `/service-periods/${periodId}/seats`,
+        end: false
+      },
+      {
+        name: "Services",
+        to: `/service-periods/${periodId}/services`,
+        end: false
+      },
+      {
+        name: "Service Lists",
+        to: `/service-periods/${periodId}/service-lists`,
+        end: false
+      },
+    ]
+  }
+
+  const periodDoesNotExistNav = {
+    name: "Error",
+    links: [
+      {
+        name: "Go to Service Periods",
+        to: `/service-periods`,
+        end: true
+      }
+    ]
+  }
+
+  const secondaryNav = servicePeriodExist ? periodExistsNav : periodDoesNotExistNav
+
+
+
+  return json({ appUser, secondaryNav });
 };
 
 
-export default function ServicePeriodsLayout() {
+
+export default function ServicePeriodsLayouts() {
+
   let data = useLoaderData<typeof loader>();
+
 
   return (
     <UIShell
+      secondaryNav={data.secondaryNav}
       appUser={data.appUser}
     >
-      <div className="px-4 py-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-              Service Periods
-            </h1>
-            <p className="mt-2 text-sm text-gray-700">
-              A list of all service periods.
-            </p>
-          </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-
-          </div>
-        </div>
-      </div>
-      <div className="py-3">
-
-        <ServicePeriodTable />
-      </div>
-
+      <Outlet />
     </UIShell>
   )
-
 }
+
+
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return <div>
+      <h1>There was an error</h1>
+      <p>{error.status}</p>
+    </div>
+  }
+  return <div />
+}
+
+

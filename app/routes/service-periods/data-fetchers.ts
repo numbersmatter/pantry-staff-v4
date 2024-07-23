@@ -1,15 +1,13 @@
 import { db } from "~/lib/database/firestore.server";
 
-export const getServicePeriods = async () => {
-  const servicePeriods = await db.service_periods.getAll();
+const checkServicePeriod = async (servicePeriodId: string) => {
+  const period = await db.service_periods.read(servicePeriodId);
 
-  const servicePeriodsData = servicePeriods.map((servicePeriod) => {
-    return {
-      id: servicePeriod.id,
-      name: servicePeriod.name,
-      description: servicePeriod.description,
-    };
-  });
+  if (!period) {
+    return false;
+  }
 
-  return servicePeriodsData;
+  return true;
 };
+
+export { checkServicePeriod };

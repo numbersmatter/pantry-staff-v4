@@ -56,13 +56,11 @@ export default function ServicePeriod() {
 
 
   return (
-    <UIShell
-      secondaryNav={data.secondaryNav}
-      appUser={data.appUser}
-    >
+    <
+      >
       <Header />
       <Outlet />
-    </UIShell>
+    </>
   )
 }
 
@@ -71,7 +69,12 @@ export default function ServicePeriod() {
 export function ErrorBoundary() {
   const error = useRouteError();
   if (isRouteErrorResponse(error)) {
-    return <div />
+    return <div>
+      <h2>testing</h2>
+    </div>
   }
-  return <div />
+  return <div>
+    <h1>There was an error</h1>
+    <p>No Period by that name found</p>
+  </div>
 }
