@@ -10,6 +10,7 @@ import LogoutButton from './logout-button';
 
 const navigation = [
   { name: 'Home', to: '/', end: true },
+  { name: "Weekplans", to: '/weekplans', end: false },
   { name: 'Programs', to: '/programs', end: false },
   { name: 'Families', to: '/families', end: false },
   { name: 'Service Periods', to: '/service-periods', end: false },

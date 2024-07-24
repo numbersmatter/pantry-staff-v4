@@ -9,6 +9,7 @@ import { seatsDb } from "./seats/seats-crud.server";
 import { serviceListDB } from "./service-lists/service-lists-crud.server";
 import { listActionsDb } from "./service-lists/list-actions-crud.server";
 import { applicationsDb } from "./applications/applications-crud.server";
+import { weekPlanDb } from "./weekplan/weekplan-crud.server";
 
 const basePath = process.env.BASEPATH;
 
@@ -23,6 +24,7 @@ const db_paths = {
   seats: `${basePath}seats`,
   service_lists: `${basePath}service_lists`,
   applications: `${basePath}applications`,
+  weekplan: `${basePath}weekplan`,
 };
 
 export const db = {
@@ -37,4 +39,5 @@ export const db = {
   service_lists: serviceListDB(db_paths.service_lists),
   bulk_list_actions: listActionsDb(db_paths.service_lists),
   applications: applicationsDb(db_paths.applications),
+  weekplan: weekPlanDb(db_paths.weekplan),
 };
