@@ -60,8 +60,8 @@ export function AddFamilyToSeatDialog({
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 ">
-            <input hidden name="type" value="assignFamilySeat" />
-            <input hidden name="familyId" value={familyId} />
+            <input hidden name="type" value="assignFamilySeat" readOnly />
+            <input hidden name="familyId" value={familyId} readOnly />
             <FormTextArea
               label="Delivery Notes"
               id="deliveryNotes"
