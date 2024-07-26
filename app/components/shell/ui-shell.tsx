@@ -112,6 +112,29 @@ export function UIShell({
                         </ul>
                       </li>
                       <li>
+                        <div className="text-lg font-semibold leading-6 text-gray-400">
+                          {secondaryNav?.name}
+                        </div>
+                        <ul className="-mx-2 mt-2 space-y-1">
+                          {secondaryNav?.links.map((item) => (
+                            <li key={item.name}>
+                              <NavLink
+                                to={item.to}
+                                className={({ isActive, isPending }) => classNames(
+                                  isActive
+                                    ? 'bg-gray-200 text-indigo-600'
+                                    : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                )}
+                              >
+                                {item.name}
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+
+                      </li>
+                      <li>
                         <div className="text-xs font-semibold leading-6 text-gray-400">User Settings</div>
                         <ul className="-mx-2 mt-2 space-y-1">
                           <li>

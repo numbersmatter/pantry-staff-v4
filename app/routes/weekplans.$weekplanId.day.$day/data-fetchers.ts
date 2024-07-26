@@ -1,4 +1,6 @@
+import { redirect } from "@remix-run/node";
 import { db } from "~/lib/database/firestore.server";
+import { ValidDay } from "~/lib/database/weekplan/types";
 
 const getTaskOnDay = async ({
   weekplanId,
@@ -36,4 +38,13 @@ const getTaskOnDay = async ({
       id: task.id,
     };
   });
+};
+
+export const checkDayIsValid = (day: string) => {
+  const validDays = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+  if (!validDays.includes(day)) {
+    throw redirect("/weekplans");
+  }
+
+  return day as ValidDay;
 };

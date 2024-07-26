@@ -6,17 +6,24 @@ import { protectedRoute } from "~/lib/auth/auth.server";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { appUser } = await protectedRoute(request);
-  return json({ appUser });
+  const weekplanId = params.weekplanId ?? "weekplanId";
+  const secondaryNav = {
+    name: "Weekplan Actions",
+    links: [
+      { name: "Week Overview", to: `/weekplans/${weekplanId}`, end: true },
+    ]
+  }
+  return json({ appUser, secondaryNav });
 };
 
 
 
 export default function WeekplanLayOut() {
-  const { appUser } = useLoaderData<typeof loader>();
+  const { appUser, secondaryNav } = useLoaderData<typeof loader>();
   return (
     <UIShell
       appUser={appUser}
-
+      secondaryNav={secondaryNav}
     >
       <Outlet />
     </UIShell>
