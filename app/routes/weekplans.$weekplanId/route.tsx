@@ -1,4 +1,4 @@
-import { json, useLoaderData } from "@remix-run/react"
+import { Outlet, json, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { protectedRoute } from "~/lib/auth/auth.server";
 import { getWeekplanData } from "./data-fetchers";
@@ -21,6 +21,7 @@ export default function WeekPlan() {
   return (
     <>
       <Header />
+      <Outlet />
     </>
   )
 }

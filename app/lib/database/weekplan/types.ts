@@ -8,6 +8,14 @@ export const validDays = [
 
 export type ValidDay = (typeof validDays)[number];
 
+export interface TaskDay {
+  monday: string[];
+  tuesday: string[];
+  wednesday: string[];
+  thursday: string[];
+  friday: string[];
+}
+
 interface TaskStatus {
   [k: string]: boolean;
 }
@@ -15,7 +23,6 @@ interface TaskStatus {
 export interface DayTask {
   title: string;
   description: string;
-  button_text: string;
   id: string;
 }
 export interface WeekTaskData {
@@ -28,10 +35,12 @@ export interface WeekTaskData {
 
 export interface WeekPlanBase {
   title: string;
-  taskData: WeekTaskData;
-  taskStatus: TaskStatus;
   description: string;
-  dataEntry?: Record<string, string | number>;
+  tasks: { [key: string]: DayTask };
+  taskDay: TaskDay;
+  taskEntry: { [key: string]: string };
+  dataEntry: { [key: string]: string | number };
+  // taskData: WeekTaskData;
 }
 
 export interface WeekPlanDBModel extends WeekPlanBase {}
