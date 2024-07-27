@@ -10,7 +10,7 @@ const getWeekplans = async () => {
       description: doc.description,
     };
   });
-  console.log(weekplans);
+
   return weekplans;
 };
 

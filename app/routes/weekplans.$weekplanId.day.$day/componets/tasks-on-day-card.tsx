@@ -106,7 +106,9 @@ export function TasksOnDayCard() {
                     </span>
                     <span className="ml-4 flex min-w-0 flex-col">
                       <span className="text-sm font-medium text-gray-500">{step.name}</span>
-                      <span className="text-sm text-gray-500">{step.description}</span>
+                      <span className="text-sm text-gray-500 text-ellipsis overflow-hidden">
+                        {step.description}
+                      </span>
                     </span>
                   </Link>
                 </>
