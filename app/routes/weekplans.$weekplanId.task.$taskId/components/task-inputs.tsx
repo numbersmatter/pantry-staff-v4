@@ -131,7 +131,6 @@ export function DialogFormSingleTextInput({
   title,
   description,
   defaultText,
-  submitUrl,
   textarea,
 }: {
   textarea: boolean,
@@ -139,7 +138,6 @@ export function DialogFormSingleTextInput({
   title: string,
   description: string,
   defaultText: string,
-  submitUrl: string,
 }) {
   const loaderData = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
@@ -168,7 +166,7 @@ export function DialogFormSingleTextInput({
       </Button>
     </DialogTrigger>
     <DialogContent className="">
-      <fetcher.Form action={submitUrl} method="POST" className="mx-auto w-full max-w-sm">
+      <fetcher.Form method="POST" className="mx-auto w-full max-w-sm">
         <DialogHeader>
           <DialogTitle>
             {title}
@@ -178,6 +176,24 @@ export function DialogFormSingleTextInput({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          <input
+            readOnly
+            type="hidden"
+            name="type"
+            value="update_text"
+          />
+          <input
+            readOnly
+            type="hidden"
+            name="taskId"
+            value={loaderData.taskId}
+          />
+          <input
+            readOnly
+            type="hidden"
+            name="weekplanId"
+            value={loaderData.weekplanId}
+          />
           {
             idError ? <div className="bg-red-200 p-2 text-red-800 text-sm">{idError}</div> : null
           }

@@ -110,7 +110,6 @@ function MessageFamilies() {
       title="Send Message to Families"
       description="Enter the message to send to families."
       defaultText={messageText as string}
-      submitUrl={`/weekplans/${weekplanId}/task/${taskId}/text`}
       textarea={true}
     />
   </div>

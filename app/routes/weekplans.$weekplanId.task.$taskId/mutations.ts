@@ -24,6 +24,13 @@ const UpdateNumberSchema = z.object({
   numberEntered: z.coerce.number(),
 });
 
+const UpdateTextSchema = z.object({
+  type: z.literal("update_text"),
+  taskId: z.string().min(3).max(30),
+  weekplanId: z.string().length(20),
+  textEntered: z.string().min(0).max(1000),
+});
+
 const days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 const findTaskDay = async ({
   weekplan,
@@ -200,6 +207,74 @@ export const updateNumberEntry = async (formInput: QueryStringRecord) => {
       {
         success: false,
         errors,
+      },
+      { status: 400 }
+    );
+  }
+
+  return json({
+    success: true,
+    errors: [],
+  });
+};
+
+const updateTextMutation = withSchema(UpdateTextSchema)(async (values) => {
+  const taskId = values.taskId;
+  const weekplanId = values.weekplanId;
+  const weekplan = await db.weekplan.read(weekplanId);
+  if (!weekplan) {
+    throw new Error("Weekplan not found");
+  }
+  const validId = checkTaskIdValid({ taskId, weekplan });
+
+  if (!validId) {
+    return "invalid";
+  }
+
+  const updateData = {
+    [`dataEntry.${taskId}`]: values.textEntered,
+  };
+
+  const writeData = await db.weekplan.update({
+    weekplanId,
+    data: updateData,
+  });
+
+  return writeData;
+});
+
+export const updateTextEntry = async (formInput: QueryStringRecord) => {
+  const result = await updateTextMutation(formInput);
+  if (!result.success) {
+    const serializedResult = serialize(result);
+
+    const errors = serializedResult.errors.map((error) => {
+      return {
+        message: error.message,
+        name: error.name,
+        path: error.path,
+      };
+    });
+    return json(
+      {
+        success: false,
+        errors,
+      },
+      { status: 400 }
+    );
+  }
+
+  if (result.data === "invalid") {
+    return json(
+      {
+        success: false,
+        errors: [
+          {
+            message: "Invalid task id",
+            path: ["taskId"],
+            name: "InvalidTaskId",
+          },
+        ],
       },
       { status: 400 }
     );

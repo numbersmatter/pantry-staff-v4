@@ -4,7 +4,7 @@ import { protectedRoute } from "~/lib/auth/auth.server";
 import { getTaskData } from "./data-fetchers";
 import { TaskCard } from "./components/task-card";
 import { inputFromForm } from "composable-functions";
-import { goToDay, toggleComplete, updateNumberEntry } from "./mutations";
+import { goToDay, toggleComplete, updateNumberEntry, updateTextEntry } from "./mutations";
 
 
 
@@ -47,6 +47,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (type === "update_number") {
     return await updateNumberEntry(formInput);
+  }
+
+  if (type === "update_text") {
+    return await updateTextEntry(formInput);
   }
 
   return json({
