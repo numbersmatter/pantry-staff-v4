@@ -14,7 +14,11 @@ import { TaskSteps } from "./task-steps";
 
 export function TaskCard() {
   const data = useLoaderData<typeof loader>();
+  const weekplanId = data.weekplanId;
+  const taskId = data.taskId;
+  const markValue = data.markValue
 
+  const incomplete = markValue === "incomplete";
 
   return (
     <div>
@@ -35,15 +39,18 @@ export function TaskCard() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Form method="post">
-            <Button variant={"secondary"} name="_action" value="toDayPage" >
+            <input type="hidden" name="taskId" value={taskId} readOnly />
+            <input type="hidden" name="weekplanId" value={weekplanId} readOnly />
+            <Button variant={"secondary"} name="type" value="go_to_day" >
               Back To Day
             </Button>
           </Form>
           <Form method="post" className="flex py-4 justify-end">
-            <input type="hidden" name="taskId" value={"currentTask.id"} />
-            <input type="hidden" name="mark" value={"value"} />
-            <Button name="_action" value="toggleComplete" type="submit">
-              Mark Complete
+            <input type="hidden" name="taskId" value={taskId} readOnly />
+            <input type="hidden" name="weekplanId" value={weekplanId} readOnly />
+            <input type="hidden" name="markValue" value={markValue} readOnly />
+            <Button variant={incomplete ? "destructive" : "default"} name="type" value="toggle_complete" type="submit">
+              {markValue === "complete" ? "Mark Complete" : "Mark InComplete"}
             </Button>
           </Form>
 

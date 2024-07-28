@@ -65,11 +65,34 @@ const weekPlanDb = (path: string) => {
     return snapshot.docs.map((doc) => doc.data());
   };
 
+  const toggleTaskComplete = async ({
+    weekplanId,
+    taskId,
+    status,
+  }: {
+    weekplanId: string;
+    taskId: string;
+    status: string;
+  }) => {
+    if (status === "complete") {
+      const updateData = {
+        [`taskEntry.${taskId}`]: "complete",
+      };
+      return updateWeekPlan({ weekplanId, data: updateData });
+    }
+
+    const updateData = {
+      [`taskEntry.${taskId}`]: "",
+    };
+    return updateWeekPlan({ weekplanId, data: updateData });
+  };
+
   return {
     read: readWeekPlan,
     create: createWeekPlan,
     update: updateWeekPlan,
     getAll,
+    toggleTaskComplete,
   };
 };
 

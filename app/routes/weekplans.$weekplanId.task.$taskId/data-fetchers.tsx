@@ -1,4 +1,5 @@
 import { db } from "~/lib/database/firestore.server";
+import { checkTaskComplete } from "~/lib/database/weekplan/util-functions";
 
 
 
@@ -35,7 +36,7 @@ export const getTaskData = async ({
 
 
 
-  const markValue = "markValue";
+  const markValue = checkTaskComplete({ weekplan, taskId }) ? "incomplete" : "complete";
 
   return {
     currentTask,
