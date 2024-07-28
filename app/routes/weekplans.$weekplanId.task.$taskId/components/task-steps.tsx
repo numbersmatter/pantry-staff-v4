@@ -17,17 +17,18 @@ function CheckOutTruck() {
   const currentOdometer = loaderData.defaultDataEntry["checkout-truck"]
 
 
-  const submitUrl = `/weekplans/${weekplanId}/task/${taskId}/number`
-
   return (
-    <div className="py-4 ">
+    <div className="py-2 ">
+      <div className="prose py-4">
+        <h4>Entered Odometer</h4>
+        <p>{currentOdometer} miles</p>
+      </div>
 
       <DialogFormSingleNumberInput
-        label="Odometer2"
-        title="Enter Odometer on Truck fetcher"
+        label="Odometer"
+        title="Enter Odometer on Truck"
         description="Enter the current odometer reading on the truck."
         defaultNumber={currentOdometer}
-        submitUrl={submitUrl}
       />
 
 

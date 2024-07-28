@@ -4,7 +4,7 @@ import { protectedRoute } from "~/lib/auth/auth.server";
 import { getTaskData } from "./data-fetchers";
 import { TaskCard } from "./components/task-card";
 import { inputFromForm } from "composable-functions";
-import { goToDay, toggleComplete } from "./mutations";
+import { goToDay, toggleComplete, updateNumberEntry } from "./mutations";
 
 
 
@@ -27,8 +27,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (type === "noAction") {
     return json({
       success: false,
-      errors: ["No action was provided"],
-    });
+      errors: [{
+        message: "No valid action type provided",
+        name: "ActionTypeError",
+        path: ["type"],
+      }],
+    },
+      { status: 400 }
+    );
   }
 
   if (type === "go_to_day") {
@@ -39,10 +45,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return await toggleComplete(formInput);
   }
 
+  if (type === "update_number") {
+    return await updateNumberEntry(formInput);
+  }
+
   return json({
-    success: true,
-    errors: ["default response"],
-  });
+    success: false,
+    errors: [{
+      message: "No valid action type provided",
+      name: "ActionTypeError",
+      path: ["type"],
+    }],
+  },
+    { status: 400 }
+  );
 };
 
 

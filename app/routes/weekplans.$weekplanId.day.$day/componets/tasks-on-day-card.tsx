@@ -3,6 +3,7 @@ import { CheckIcon } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { loader as weekplanLoader } from "~/routes/weekplans.$weekplanId/route"
 import { loader } from "../route";
+import { Button } from "~/components/ui/button";
 
 export type Vstep = {
   name: string;
@@ -53,10 +54,15 @@ export function TasksOnDayCard() {
     } as Vstep;
   });
 
+  const backToWeek = `/weekplans/${weekplan.id}`
+
   return (
     <div className="px-4 py-4 sm:px-6 lg:px-8">
       <nav aria-label="Progress" className="">
         <ol className="overflow-hidden">
+          <li className="relative pb-10">
+            <LinkToWeek to={backToWeek} />
+          </li>
           {taskSteps.map((step: Vstep, stepIdx) => (
             <li key={step.id} className={cn(stepIdx !== taskSteps.length - 1 ? 'pb-10' : '', 'relative')}>
               {step.status === 'complete' ? (
@@ -118,5 +124,17 @@ export function TasksOnDayCard() {
         </ol>
       </nav>
     </div>
+  )
+}
+
+
+function LinkToWeek({ to }: { to: string }) {
+
+  return (
+    <Link to={to} >
+      <Button>
+        Back to Week
+      </Button>
+    </Link>
   )
 }

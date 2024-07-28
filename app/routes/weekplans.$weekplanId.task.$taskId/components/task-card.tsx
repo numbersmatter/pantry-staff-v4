@@ -21,7 +21,7 @@ export function TaskCard() {
   const incomplete = markValue === "incomplete";
 
   return (
-    <div>
+    <div className="sm:px-3">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -30,6 +30,7 @@ export function TaskCard() {
           <CardDescription>
             {data.currentTask.description}
           </CardDescription>
+
         </CardHeader>
         <CardContent>
           {

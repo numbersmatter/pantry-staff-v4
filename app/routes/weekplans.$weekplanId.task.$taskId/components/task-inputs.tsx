@@ -34,13 +34,11 @@ export function DialogFormSingleNumberInput({
   title,
   description,
   defaultNumber,
-  submitUrl,
 }: {
   label: string,
   title: string,
   description: string,
   defaultNumber: number,
-  submitUrl: string,
 }) {
   const loaderData = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
@@ -73,7 +71,7 @@ export function DialogFormSingleNumberInput({
       </Button>
     </DialogTrigger>
     <DialogContent className="">
-      <fetcher.Form action={submitUrl} method="POST" className="mx-auto w-full max-w-sm">
+      <fetcher.Form method="POST" className="mx-auto w-full max-w-sm">
         <DialogHeader>
           <DialogTitle>
             {title}
@@ -86,6 +84,24 @@ export function DialogFormSingleNumberInput({
           {
             idError ? <div className="bg-red-200 p-2 text-red-800 text-sm">{idError}</div> : null
           }
+          <input
+            readOnly
+            type="hidden"
+            name="type"
+            value="update_number"
+          />
+          <input
+            readOnly
+            type="hidden"
+            name="taskId"
+            value={loaderData.taskId}
+          />
+          <input
+            readOnly
+            type="hidden"
+            name="weekplanId"
+            value={loaderData.weekplanId}
+          />
           <FormNumberField
             id="numberEntered"
             label={label}

@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from "@remix-run/react";
+import { Link, useRouteLoaderData } from "@remix-run/react";
 import {
   Card,
   CardContent,
@@ -65,9 +65,9 @@ export function WeekPlanStatusCard() {
 
         </CardContent>
         <CardFooter>
-          <Button>
-            Start Monday
-          </Button>
+          <Link to={`/weekplans`}>
+            <Button variant={"secondary"}>Back to Weekplans</Button>
+          </Link>
 
         </CardFooter>
 
