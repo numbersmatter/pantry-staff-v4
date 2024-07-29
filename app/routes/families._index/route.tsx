@@ -4,6 +4,7 @@ import { protectedRoute } from "~/lib/auth/auth.server";
 import { getFamilies } from "./data-fetchers";
 import { DataTable } from "~/components/common/data-table";
 import { FamilyIndexTableCols, FamilyIndexTable } from "./components";
+import { FamilyHeader } from "./components/family-header";
 
 
 
@@ -32,7 +33,7 @@ export default function FamiliesIndex() {
 
   return (
     <div className="px-2 md:px-6">
-      <h1>Families Index</h1>
+      <FamilyHeader />
       <FamilyIndexTable data={familyData} columns={FamilyIndexTableCols} />
     </div>
   );

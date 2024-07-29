@@ -1,5 +1,6 @@
 import { db } from "~/lib/database/firestore.server";
 import { checkTaskComplete } from "~/lib/database/weekplan/util-functions";
+import { helperText } from "../weekplans_._index/default-data";
 
 
 
@@ -32,7 +33,7 @@ export const getTaskData = async ({
   }
 
 
-  const helperText = "This is a helper text";
+  const helpText = helperText?.[taskId] ?? "";
 
 
 
@@ -42,6 +43,6 @@ export const getTaskData = async ({
     currentTask,
     defaultDataEntry,
     markValue,
-    helperText
+    helperText: helpText
   };
 }

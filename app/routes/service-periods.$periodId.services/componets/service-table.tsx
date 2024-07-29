@@ -1,7 +1,8 @@
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "~/components/common/data-table";
 import { loader } from "../route";
+import { Button } from "~/components/ui/button";
 
 interface ServiceTableCols {
   id: string;
@@ -19,6 +20,15 @@ const serviceTableCols: ColumnDef<ServiceTableCols>[] = [
   {
     header: "ID",
     accessorKey: "id",
+    cell: ({ row }) => {
+      return (
+        <Link to={`/transactions/${row.original.id}`}>
+          <Button variant="secondary">
+            {row.original.id}
+          </Button>
+        </Link>
+      )
+    }
   },
   {
     header: "Value",

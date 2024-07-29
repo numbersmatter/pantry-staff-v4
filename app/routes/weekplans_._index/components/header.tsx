@@ -1,3 +1,4 @@
+import { WeekPlanDialog } from "./create-week-plan-dialog";
 
 
 
@@ -15,7 +16,7 @@ export function Header() {
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-
+          <WeekPlanDialog />
         </div>
       </div>
     </div>

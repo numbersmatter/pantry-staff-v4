@@ -17,7 +17,7 @@ export function TaskCard() {
   const weekplanId = data.weekplanId;
   const taskId = data.taskId;
   const markValue = data.markValue
-
+  const helperText = data.helperText;
   const incomplete = markValue === "incomplete";
 
   return (
@@ -34,7 +34,7 @@ export function TaskCard() {
         </CardHeader>
         <CardContent>
           {
-            // helperText ? <p>{helperText}</p> : null
+            helperText ? <p>{helperText}</p> : null
           }
           <TaskSteps />
         </CardContent>

@@ -2,6 +2,7 @@
 import { useParams, useLoaderData } from "@remix-run/react";
 import { DialogFormSingleNumberInput, DialogFormSingleTextInput } from "./task-inputs";
 import { loader } from "../route";
+import { Button } from "~/components/ui/button";
 // import {
 //   DialogFormSingleNumberInput, DialogFormSingleTextInput
 // } from "../forms/dialog-form";
@@ -42,6 +43,16 @@ function DriveSecondHarvest() {
 
   return (
     <div className="py-4">
+      <div className="py-2">
+        <a
+          href={"https://maps.app.goo.gl/wZp5CM5df43VDVXs8"}
+          target="_blank" rel="noreferrer"
+        >
+          <Button >
+            Go to Map
+          </Button>
+        </a>
+      </div>
       <iframe title="map to harvest" className="my-3 aspect-square min-w-full" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d260609.8246677232!2d-80.33177336869866!3d36.01134875666099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x88530a587631e067%3A0xd80fc5d0a6bcdbb1!2sCommunities%20In%20Schools%20of%20Thomasville%2C%20East%20Guilford%20Street%2C%20Thomasville%2C%20NC%2C%20USA!3m2!1d35.8848546!2d-80.0811739!4m5!1s0x8853af6a6ba8891f%3A0x20fce3b69c5e8c07!2sSecond%20Harvest%20Food%20Bank%20of%20Northwest%20North%20Carolina%2C%203330%20Shorefair%20Dr%20NW%2C%20Winston-Salem%2C%20NC%2027105%2C%20United%20States!3m2!1d36.13607!2d-80.25279019999999!5e1!3m2!1sen!2sco!4v1713976745359!5m2!1sen!2sco" allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
       <div className="mt-4">
 
@@ -53,7 +64,16 @@ function DriveCisT() {
 
   return (
     <div className="py-4">
-
+      <div className="py-2">
+        <a
+          href={"https://maps.app.goo.gl/wZp5CM5df43VDVXs8"}
+          target="_blank" rel="noreferrer"
+        >
+          <Button >
+            Go to Map
+          </Button>
+        </a>
+      </div>
       <iframe title="Drive to CIS" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12930.159675183502!2d-80.0811344!3d35.8847901!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88530a587631e067%3A0xd80fc5d0a6bcdbb1!2sCommunities%20In%20Schools%20of%20Thomasville!5e0!3m2!1sen!2sus!4v1715376982911!5m2!1sen!2sus" width="600" height="450" allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
     </div>
   )
@@ -124,8 +144,13 @@ function PlanServiceMenu() {
 
 
 
-  return <div className="py-4">
-
+  return <div className="py-4 prose">
+    <h4>
+      Enter the menu items
+    </h4>
+    <p>
+      Menus are created in a service list by going to the program and creating a new service list for the week. Go to Programs {">>"} Current Service Period {">>"} Service Lists {">>"} New Service List.
+    </p>
 
 
 
@@ -205,15 +230,8 @@ function MeetDasher() {
   return <div className="py-4">
     <div className="aspect-video">
       {/* @tslint expect-error */}
-      <video
-        className="h-full w-full rounded-lg"
-        controls
-      >
-        <source src="https://www.youtube.com/embed/cRvVfjc1f-g?si=fze7PjHWR37_lk9l" type="video/mp4" />
-        <track src="captions_en.vtt" kind="captions" srcLang="en" label="english_captions" />
-      </video>
-      {/* <iframe className="h-full w-full rounded-lg"
-            src="https://www.youtube-nocookie.com/embed/cRvVfjc1f-g?si=l5Du3Jx3xPmLmKxw" title="YouTube video player" frameBorder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe> */}
+      <iframe className="h-full w-full rounded-lg"
+        src="https://www.youtube-nocookie.com/embed/cRvVfjc1f-g?si=l5Du3Jx3xPmLmKxw" title="YouTube video player" frameBorder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
     </div>
   </div>
 };
