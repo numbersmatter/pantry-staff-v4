@@ -14,6 +14,7 @@ const navigation = [
   { name: 'Programs', to: '/programs', end: false },
   { name: 'Families', to: '/families', end: false },
   { name: 'Service Periods', to: '/service-periods', end: false },
+  { name: 'Transactions', to: '/transactions', end: false },
 ]
 
 function classNames(...classes: string[]) {
