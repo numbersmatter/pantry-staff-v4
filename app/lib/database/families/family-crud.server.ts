@@ -39,7 +39,7 @@ const familyDb = (path: string) => {
     const data = {
       ...family,
       id: "",
-      created_date: FieldValue.serverTimestamp(),
+      created_date: new Date(),
     };
     const familyCollRef = familyCollection;
     const docRef = await familyCollRef.add(data);

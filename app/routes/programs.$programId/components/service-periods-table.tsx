@@ -71,7 +71,11 @@ export default function ServicePeriodTable() {
           <DataTable columns={columns} data={columnData} />
         </CardContent>
         <CardFooter>
-          <CreatePeriodDialog />
+          <Link to="service-periods">
+            <Button>
+              Add Service Period
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
 

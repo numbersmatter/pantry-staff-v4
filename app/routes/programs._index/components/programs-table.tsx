@@ -46,14 +46,7 @@ const programsOfAreaColumns: ColumnDef<Program>[] = [
 
 
 
-function ProgramsHeader() {
-  return (
-    <StandardContainer >
-      <h1>Programs</h1>
-    </StandardContainer>
-  )
 
-}
 
 
 function ProgramsList({ programsList }: { programsList: { id: string, program_area_name: string, name: string }[] }) {
@@ -92,4 +85,4 @@ function CurrentPeriod({
 }
 
 
-export { ProgramsHeader, ProgramsList }
+export { ProgramsList }
