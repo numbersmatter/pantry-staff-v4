@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { isRouteErrorResponse, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
+import { StandardError } from "~/components/shell/page-error";
 import { UIShell } from "~/components/shell/ui-shell";
 import { protectedRoute } from "~/lib/auth/auth.server";
 
@@ -21,4 +22,18 @@ export default function TransactionsRoute() {
     </UIShell>
   )
 }
+
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    const err = {
+      name: error.status.toString(),
+      message: error.statusText,
+    }
+    return <StandardError error={err} />;
+  }
+  return <div />
+}
+
 

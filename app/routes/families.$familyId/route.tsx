@@ -128,8 +128,8 @@ export function ErrorBoundary() {
     );
   } else if (error instanceof Error) {
     return (
-      <div>
-        <h1>Error</h1>
+      <div className={"prose, px-3 py-2"}>
+        <h1>Error Family</h1>
         <p>{error.message}</p>
         <p>The stack trace is:</p>
         <pre>{error.stack}</pre>
