@@ -18,8 +18,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function TransactionIndexRoute() {
   const data = useLoaderData()
   return (
-    <div>
-      <h1>TransactionIndexRoute</h1>
+    <div className=" px-3 py-2 prose">
+      <h1>Transaction Index</h1>
     </div>
   );
 }
