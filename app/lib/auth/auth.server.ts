@@ -3,6 +3,7 @@ import { sessionStorage } from "./sessions.server";
 import { User } from "./auth-types";
 import { AuthStrategies } from "./auth_strategies";
 import { formStrategy } from "./auth_strategies/form.strategy";
+import { db } from "../database/firestore.server";
 // import { db } from "../database/firestore.server";
 
 export type AuthStrategy = (typeof AuthStrategies)[keyof typeof AuthStrategies];
@@ -18,7 +19,9 @@ export const protectedRoute = async (request: Request) => {
   let user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
-  // const staff = await db.staff.read(user.uid);
+
+  const uid = user.uid;
+  const staff = await db.staff.read(uid);
 
   // const staffData: StaffInfo = {
   //   fname: staff ? staff.fname : "no f name",
@@ -26,13 +29,13 @@ export const protectedRoute = async (request: Request) => {
   // };
 
   const appUser = {
-    fname: "Leonard",
-    lname: "Lawson",
-    email: "leonard@verticalhydration.com",
-    id: "1",
+    fname: staff ? staff.fname : "User",
+    lname: staff ? staff.lname : "",
+    email: user.email,
+    id: user.uid,
   };
 
-  return { ...user, appUser };
+  return { uid: user.uid, appUser };
 };
 
 // Register your strategies below

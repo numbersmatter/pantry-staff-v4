@@ -26,8 +26,10 @@ export default function Index() {
     <UIShell
       appUser={data.userData.appUser}
     >
-      <h1>hello</h1>
-      <pre>{JSON.stringify(data)}</pre>
+      <div className=" px-3 py-2 prose">
+        <h1>hello</h1>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
     </UIShell>
   );
 }

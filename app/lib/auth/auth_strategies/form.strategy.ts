@@ -22,9 +22,9 @@ export const formStrategy = new FormStrategy<User>(async ({ form }) => {
     const decodedIdToken = await authFirebase.server.verifySessionCookie(
       sessionCookie || ""
     );
-    const user: User = {
+    const user = {
       uid: decodedIdToken.uid,
-      email: decodedIdToken.email,
+      email: decodedIdToken.email ?? "token no email",
     };
     return user;
   } else {
@@ -34,8 +34,9 @@ export const formStrategy = new FormStrategy<User>(async ({ form }) => {
     const decodedIdToken = await authFirebase.server.verifySessionCookie(
       sessionCookie || ""
     );
-    const user: User = {
+    const user = {
       uid: decodedIdToken.uid,
+      email: email ?? "no email form",
     };
     return user;
   }
