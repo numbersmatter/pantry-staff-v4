@@ -4,7 +4,7 @@ ARG NODE_VERSION=20.16.0
 
 FROM node:20.16.0-bullseye-slim as base
 # set for base and all layer that inherit from it
-ENV NODE_ENV development
+ENV NODE_ENV production
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
@@ -52,6 +52,6 @@ COPY --from=build /app/package.json /app/package.json
 
 # drop the posts for the gcloud build
 
-EXPOSE ${PORT}
+EXPOSE 8080
 
 CMD ["npm", "run", "start"]
