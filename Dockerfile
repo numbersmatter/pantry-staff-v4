@@ -1,10 +1,10 @@
 # Credit to Tom Rowe https://gist.github.com/TheRealFlyingCoder/773bf60f433ccbdbad8c296a99fb3738
-ARG NODE_VERSION=20.9.0
+ARG NODE_VERSION=20.16.0
 # base node image
 
-FROM node:20.9.0-bullseye-slim as base
+FROM node:20.16.0-bullseye-slim as base
 # set for base and all layer that inherit from it
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
@@ -13,7 +13,7 @@ FROM base as deps
 WORKDIR /app
 
 ADD package.json ./
-RUN npm install --include=dev
+RUN  NODE_ENV=development npm install 
 
 # Setup production node_modules
 FROM base as production-deps

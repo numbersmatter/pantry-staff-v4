@@ -58,10 +58,10 @@
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.1.6",
-    "vite": "^5.1.0",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite": "^5.3.5",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.16.0"
   }
 }

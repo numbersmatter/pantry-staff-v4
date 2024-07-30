@@ -2,6 +2,8 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
+console.log("Loading Vite configuration...");
+
 export default defineConfig({
   plugins: [
     remix({
@@ -14,3 +16,5 @@ export default defineConfig({
     tsconfigPaths(),
   ],
 });
+
+console.log("Vite configuration loaded successfully.");
