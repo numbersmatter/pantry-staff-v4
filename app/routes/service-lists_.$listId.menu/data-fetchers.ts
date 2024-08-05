@@ -6,9 +6,28 @@ const getServiceListData = async (listId: string) => {
     throw new Error("Service list not found");
   }
 
+  const listValues = list.service_items.map(
+    (item) => item.value * item.quantity
+  );
+
+  const listTotalValues = listValues.reduce((acc, value) => acc + value, 0);
+
+  const listTotal = list.service_items.reduce((acc, item) => {
+    const itemTotal = item.value * item.quantity;
+    return {
+      value: acc.value + itemTotal,
+      quantity: acc.quantity + item.quantity,
+      item_id: list.id,
+      item_name: "Total",
+      type: "menu-box",
+    };
+  });
+
   const menuCardData = {
     name: list.name,
     description: list.description,
+    listTotal,
+    listTotalValues,
   };
 
   return {

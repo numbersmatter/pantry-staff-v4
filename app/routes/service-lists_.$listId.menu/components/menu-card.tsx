@@ -12,10 +12,13 @@ import {
 import { loader } from "../route";
 import { ItemsTable } from "./items-table";
 import { AddServiceItemDialog } from "./add-service-item";
+import { dollarValueConverter } from "~/lib/utils";
 
 
 export function MenuCard() {
   const { menuCardData, listId } = useLoaderData<typeof loader>();
+
+  const menuTotal = dollarValueConverter(menuCardData.listTotalValues);
   return (
     <ContainerPadded className="py-0 sm:py-4">
       <Card>
@@ -24,7 +27,7 @@ export function MenuCard() {
             {menuCardData?.name ?? "Service List"}
           </CardTitle>
           <CardDescription>
-            Add food list items to this service list.
+            There are {menuCardData.listTotal.quantity} items in this list totaling {menuTotal}.
           </CardDescription>
         </CardHeader>
         <CardContent>
