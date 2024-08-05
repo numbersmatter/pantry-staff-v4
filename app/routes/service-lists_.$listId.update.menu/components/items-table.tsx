@@ -29,6 +29,7 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline"
 import { UpdateServiceItemDialog } from "./update-service-item"
+import { DataTable } from "~/components/common/data-table"
 
 
 interface DataTableProps<TData, TValue> {
@@ -227,7 +228,20 @@ function ItemsDataTable<TData, TValue>({
 
 
 
+export function ItemTableStandard() {
+  const data = useLoaderData<typeof loader>();
 
+  const itemsData = data.items.map(item => {
+    return {
+      id: item.item_id,
+      name: item.item_name,
+      quantity: item.quantity,
+      unitValue: item.value
+    }
+  })
+
+  return <DataTable data={itemsData} columns={serviceItemsCols} />
+}
 
 
 export function ItemsTable() {

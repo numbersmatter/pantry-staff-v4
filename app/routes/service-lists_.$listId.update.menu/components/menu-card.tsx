@@ -10,9 +10,10 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { loader } from "../route";
-import { ItemsTable } from "./items-table";
+import { ItemsTable, ItemTableStandard } from "./items-table";
 import { AddServiceItemDialog } from "./add-service-item";
 import { dollarValueConverter } from "~/lib/utils";
+import { DataTable } from "~/components/common/data-table";
 
 
 export function MenuCard() {
@@ -33,7 +34,7 @@ export function MenuCard() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ItemsTable />
+          <ItemTableStandard />
         </CardContent>
         <CardFooter className="py-2">
           <AddServiceItemDialog
