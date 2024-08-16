@@ -10,9 +10,18 @@ const getServiceListData = async (listId: string) => {
     (item) => item.value * item.quantity
   );
 
-  const listTotalValues = listValues.reduce((acc, value) => acc + value, 0);
+  const listTotalValues = listValues.length > 0
+  ? listValues.reduce((acc, value) => acc + value, 0) 
+  : [{
+    value:0,
+    quantity:0,
+    item_id: list.id,
+    item_name: "Total",
+    type: "menu-box",
+  }]
 
-  const listTotal = list.service_items.reduce((acc, item) => {
+  const listTotal = listValues.length > 0 ?
+  list.service_items.reduce((acc, item) => {
     const itemTotal = item.value * item.quantity;
     return {
       value: acc.value + itemTotal,
@@ -21,7 +30,14 @@ const getServiceListData = async (listId: string) => {
       item_name: "Total",
       type: "menu-box",
     };
-  });
+  })
+  :{
+    value:0,
+    quantity:0,
+    item_id: list.id,
+    item_name: "Total",
+    type: "menu-box",
+  }
 
   const menuCardData = {
     name: list.name,
