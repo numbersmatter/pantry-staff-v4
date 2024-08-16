@@ -2,7 +2,7 @@ interface RestError {
   error: {
     code: number;
     message: string;
-    errors: any[];
+    errors: unknown[];
   };
 }
 

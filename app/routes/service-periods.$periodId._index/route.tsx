@@ -2,6 +2,7 @@ import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { ServicePeriodDashboard } from "./components";
 import { protectedRoute } from "~/lib/auth/auth.server";
 import { getPageData } from "./data-fetchers";
+import ActiveToggle from "./components/active-toggle";
 
 
 
@@ -25,7 +26,7 @@ export default function ServicePeriodsPeriodIdIndex() {
 
   return (
     <>
-
+      <ActiveToggle />
       {/* <ServicePeriodNavMenu /> */}
       <ServicePeriodDashboard />
 

@@ -14,6 +14,7 @@ export interface ServicePeriod {
   updated_date: Date;
   capacity: ServicePeriodCapacity;
   program_id: ProgramId;
+  active: boolean;
 }
 
 export interface ServicePeriodDbModel {
@@ -25,4 +26,5 @@ export interface ServicePeriodDbModel {
   updated_date: Timestamp;
   capacity: ServicePeriodCapacity;
   program_id: ProgramId;
+  active?: boolean;
 }

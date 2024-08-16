@@ -39,6 +39,7 @@ const servicePeriodConverter: FirestoreDataConverter<ServicePeriod> = {
       end_date: data.end_date.toDate(),
       created_date: data.created_date.toDate(),
       updated_date: data.updated_date.toDate(),
+      active: data.active ?? false,
     };
   },
 };
@@ -73,19 +74,19 @@ let service_periodsDb = (path: string) => {
     await service_periods_collection().doc(id).delete();
   };
 
-  const getAll = async () => {
+  const all = async () => {
     const snapshot = await service_periods_collection().get();
     return snapshot.docs.map((doc) => doc.data());
   };
 
-  const byProgramId = async (program_id: string) => {
+  const query_by_program_id = async (program_id: string) => {
     const snapshot = await service_periods_collection()
       .where("program_id", "==", program_id)
       .get();
     return snapshot.docs.map((doc) => doc.data());
   };
 
-  const getLastServicePeriod = async (program_id: string) => {
+  const most_recent_start_date = async (program_id: string) => {
     const snapshot = await service_periods_collection()
       .where("program_id", "==", program_id)
       .orderBy("start_date", "desc")
@@ -101,14 +102,23 @@ let service_periodsDb = (path: string) => {
     return dataSnaps[0].id;
   };
 
+  const set_active = async (id: string, active: boolean) => {
+    const writeResult = await service_periods_collection()
+      .doc(id)
+      .update({ active: active });
+
+    return writeResult;
+  };
+
   return {
     create,
     read,
     update,
     remove,
-    getAll,
-    byProgramId,
-    getLastServicePeriod,
+    getAll: all,
+    byProgramId: query_by_program_id,
+    getLastServicePeriod: most_recent_start_date,
+    setActive: set_active,
   };
 };
 
